@@ -5,6 +5,7 @@ Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion)
 	texture_proyectil = new Texture;
 	texture_proyectil->loadFromFile("recursos/proyectil.png");
 	sprite_proyectil = new Sprite;
+	sprite_proyectil->setColor(Color::Red);
 	sprite_proyectil->setTexture(*texture_proyectil);
 	sprite_proyectil->setPosition(pos_bocacha);
 	sprite_proyectil->setRotation(rotacion);
