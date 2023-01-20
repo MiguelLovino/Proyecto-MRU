@@ -17,6 +17,14 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
 	
+	//Texto de MENU
+	
+	fuente_txt.loadFromFile("recursos/Ss.ttf");
+	
+	texto_inicio.setFont(fuente_txt);
+	texto_inicio.setString("INICIO");
+	texto_inicio.setPosition(400, 300);
+	texto_inicio.setCharacterSize(50);
 	
 }
 void Juego::ProcessEvent(Event& evt)
@@ -51,6 +59,17 @@ void Juego::ProcessEvent(Event& evt)
 		//jugador->set_velocidad_x(-0.1);
 		
 	}
+	if (Mouse::isButtonPressed(Mouse::Right))
+	{
+		pantalla_juego = true;
+		pantalla_menu = false;
+	}
+	if (Mouse::isButtonPressed(Mouse::Middle) && pantalla_menu == false)
+	{
+		pantalla_juego = false;
+		pantalla_fin = true;
+	}
+	
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
 		if (pelotas.size() >= 0)
@@ -75,6 +94,17 @@ void Juego::ProcessEvent(Event& evt)
 
 void Juego::DrawGame()
 {
+	//PANTALLA DE INICIO
+	if (pantalla_menu == true)
+	{
+		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
+		pWnd->draw(texto_inicio);
+	}
+	//PANTALLA DEL JUEGO
+	if (pantalla_juego == true)
+	{
+
+	
 	//todo lo que se dibuje
 	pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
 	pWnd->draw(bombardero->get_sprite_avion()); //avion
@@ -97,11 +127,22 @@ void Juego::DrawGame()
 	pWnd->draw(torretaaire->get_sprite_torreta()); //torreta
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 	
+	}
+	//PANTALLA DE FIN
+
+	if (pantalla_fin == true)
+	{
+		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
+	}
 
 }
 
 void Juego::UpdateGame()
 {
+	if (pantalla_juego == true)
+	{
+
+	
 	//mira
 	Mira_cursor->set_pos_mira(mouserposition);
 	
@@ -193,11 +234,15 @@ void Juego::UpdateGame()
 	
 
 	//jugador->actualizar_pos(tiempo2);
-	
+	}
 }
 
 void Juego::ProcessCollisions()
 {
+	if (pantalla_juego == true)
+	{
+
+	
 	//coliciones
 	//colicion de bombas con proyectiles.
 	if (pelotas.size() >= 0 && proyectil_torretaDOS.size() >= 0)
@@ -243,7 +288,8 @@ void Juego::ProcessCollisions()
 			}
 		}
 	}
-
+	
+	}
 }
 
 Juego::~Juego(void)
@@ -260,6 +306,7 @@ void Juego::Go()
 		//procesar eventos
 		while (pWnd->pollEvent(evt))
 			ProcessEvent(evt);
+		//MENU DE PANTALLA AQUI.
 		//procesar colisiones
 		ProcessCollisions();
 		//actualizar estados de objetos
@@ -267,6 +314,7 @@ void Juego::Go()
 		pWnd->clear();
 		DrawGame();
 		prueba_en_consola();
+		//MENU DE FIN DEL JUEGO AQUI
 		pWnd->display();
 		
 	}

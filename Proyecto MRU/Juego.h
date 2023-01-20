@@ -43,7 +43,11 @@ private:
 	Proyectil* proyectil_torretaaire;
 	vector<Proyectil*> proyectil_torretaDOS;
 	void disparar_proyectiles(Vector2f pos_bocacha, float rotacion);
-
+	bool pantalla_menu = true;
+	bool pantalla_juego = false;
+	bool pantalla_fin = false;
+	Text texto_inicio;
+	Font fuente_txt;
 public:
 	
 	
