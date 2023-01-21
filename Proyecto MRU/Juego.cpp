@@ -10,6 +10,7 @@ Juego::Juego(int alto, int ancho, string titulo)
 	bombardero = new Avion;
 	Mira_cursor = new Mira;
 	torretaaire = new Torreta;
+	menus = new Menu;
 	//proyectil_torretaaire = new Proyectil;
 	//pelotita = new Pelota;
 	reloj = new Clock;
@@ -17,14 +18,6 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
 	
-	//Texto de MENU
-	
-	fuente_txt.loadFromFile("recursos/Ss.ttf");
-	
-	texto_inicio.setFont(fuente_txt);
-	texto_inicio.setString("INICIO");
-	texto_inicio.setPosition(400, 300);
-	texto_inicio.setCharacterSize(50);
 	
 }
 void Juego::ProcessEvent(Event& evt)
@@ -59,16 +52,24 @@ void Juego::ProcessEvent(Event& evt)
 		//jugador->set_velocidad_x(-0.1);
 		
 	}
-	if (Mouse::isButtonPressed(Mouse::Right))
+	if (Mouse::isButtonPressed(Mouse::Left))
 	{
+		/*
+		if (Mira_cursor->get_sprite().getGlobalBounds().intersects(texto_inicio.getGlobalBounds()))
+		{
 		pantalla_juego = true;
 		pantalla_menu = false;
+
+		}
+		*/
 	}
+	/*
 	if (Mouse::isButtonPressed(Mouse::Middle) && pantalla_menu == false)
 	{
 		pantalla_juego = false;
 		pantalla_fin = true;
 	}
+	*/
 	
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
@@ -95,14 +96,17 @@ void Juego::ProcessEvent(Event& evt)
 void Juego::DrawGame()
 {
 	//PANTALLA DE INICIO
+	/*
 	if (pantalla_menu == true)
 	{
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
 		pWnd->draw(texto_inicio);
+		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 	}
 	//PANTALLA DEL JUEGO
-	if (pantalla_juego == true)
-	{
+	*/
+	//if (pantalla_juego == true)
+	//{
 
 	
 	//todo lo que se dibuje
@@ -127,20 +131,27 @@ void Juego::DrawGame()
 	pWnd->draw(torretaaire->get_sprite_torreta()); //torreta
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 	
-	}
+	//}
 	//PANTALLA DE FIN
-
+	/*
 	if (pantalla_fin == true)
 	{
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
 	}
+	*/
 
 }
 
 void Juego::UpdateGame()
 {
-	if (pantalla_juego == true)
-	{
+	//pantalla menu
+	/*
+	
+	*/
+	//pantalla juego
+
+	//if (pantalla_juego == true)
+	//{
 
 	
 	//mira
@@ -171,7 +182,7 @@ void Juego::UpdateGame()
 	//actualizar avion
 	bombardero->actualizar();
 
-	//tirar bombas
+	//tirar bombas //CONTROLAR AQUI.
 	if (tiempo2 > tiempo3)
 	{
 		tiempo3 = tiempo2 + 0.25f;
@@ -234,13 +245,13 @@ void Juego::UpdateGame()
 	
 
 	//jugador->actualizar_pos(tiempo2);
-	}
+	//}
 }
 
 void Juego::ProcessCollisions()
 {
-	if (pantalla_juego == true)
-	{
+	//if (pantalla_juego == true)
+	//{
 
 	
 	//coliciones
@@ -289,7 +300,7 @@ void Juego::ProcessCollisions()
 		}
 	}
 	
-	}
+	//}
 }
 
 Juego::~Juego(void)
@@ -305,6 +316,9 @@ void Juego::Go()
 	while (pWnd->isOpen()) {
 		//procesar eventos
 		while (pWnd->pollEvent(evt))
+		
+
+		
 			ProcessEvent(evt);
 		//MENU DE PANTALLA AQUI.
 		//procesar colisiones
