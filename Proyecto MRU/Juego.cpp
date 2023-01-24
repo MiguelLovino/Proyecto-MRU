@@ -15,7 +15,14 @@ Juego::Juego(int alto, int ancho, string titulo)
 	tiempo1 = new Time;
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
-	
+	soldado = new Jugador;
+	soldadoRECT = new RectangleShape;
+	soldadoRECT->setFillColor(Color::Red);
+	Vector2f soldadorecsize;
+	soldadorecsize.x = 5;
+	soldadorecsize.y = 5;
+	soldadoRECT->setSize(soldadorecsize);
+
 }
 void Juego::ProcessEvent(Event& evt)
 {
@@ -39,6 +46,7 @@ void Juego::ProcessEvent(Event& evt)
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
 		torretaaire->rota_derecha();
+		
 		//cout << "funciona la D" << endl;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::A))
@@ -80,6 +88,7 @@ void Juego::DrawGame()
 {
 	//PANTALLA DE INICIO
 	menus->dibujar_inicio(pWnd, pantalla_fondo, Mira_cursor);
+	//PANTALLA DE FIN
 	menus->dibujar_fin(pWnd, pantalla_fondo, Mira_cursor);
 	
 	
@@ -107,23 +116,36 @@ void Juego::DrawGame()
 	}
 	
 	pWnd->draw(torretaaire->get_sprite_torreta()); //torreta
+	pWnd->draw(soldado->get_sprite());
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
-	
+	pWnd->draw(*soldadoRECT);
 	
 	}
-	
+	//MENUS DE PANTALLA DE JUEGO
 	menus->dibujar_menu_juego(pWnd, pantalla_fondo, Mira_cursor);
 }
 
 void Juego::UpdateGame()
 {
+	//MENU
 	//pantalla menu
-	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd);
+	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd, evt);
 	//pantalla del menu de juego
 	menus->menu_juego_actualizar(vida);
 	//pantalla  de fin
-	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd);
+	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
 	
+	//MOVIMIENTOS
+	if (Keyboard::isKeyPressed(Keyboard::D))
+	{
+		soldado->mov_derecha();
+		//cout << "funciona la D" << endl;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::A))
+	{
+		soldado->mov_izquierda();
+		//cout << "funciona la D" << endl;
+	}
 
 	//pantalla juego
 	if (menus->get_pantalla_juego() == true)
@@ -135,8 +157,8 @@ void Juego::UpdateGame()
 	Mira_cursor->set_pos_mira(mouserposition);
 
 	//disparar proyectiles (los crea)
-	proyectil_pos_de_disparo.x = torretaaire->get_sprite_torreta().getPosition().x -11 + torretaaire->get_sprite_torreta().getRotation();
-	proyectil_pos_de_disparo.y = torretaaire->get_sprite_torreta().getPosition().y -100 + torretaaire->get_sprite_torreta().getRotation();
+	proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
+	proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
 	disparar_proyectiles(proyectil_pos_de_disparo, torretaaire->get_sprite_torreta().getRotation()); //disparar proyectiles
 
@@ -153,12 +175,10 @@ void Juego::UpdateGame()
 	//actualizar avion
 	bombardero->actualizar();
 	
-	
-
 	//actualizar bombas
 	if (pelotas.size() >= 0)
 	{
-		for (int i = 1; i < pelotas.size(); i++)
+		for (int i = 0; i < pelotas.size(); i++)
 		{
 		pelotas[i]->actualizar();
 		}
@@ -213,10 +233,11 @@ void Juego::UpdateGame()
 		tiempo3 = tiempo2 + 0.25f;
 		if (bombardero->posision_disparo() == true)
 		{
-			
 			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
 		}
 	}
+	soldado->actualizar();
+	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
 
 	//CONDICION DE GAME OVER
 	if (vida <= 0)
@@ -224,15 +245,9 @@ void Juego::UpdateGame()
 		Game_over = true;
 	}
 	
-	//RESETEO EL JUEGO
-	if (Game_over == true)
-	{
-		resetear_juego();
-		menus->set_pantalla_juego(false);
-		menus->set_pantalla_fin(true);
-
-
-	}
+	//RESETEO EL JUEGO cuando pierdo.
+	resetear_juego();
+	
 	}
 }
 
@@ -303,7 +318,7 @@ void Juego::Go()
 {
 	
 	//objeto para recibir eventos
-	Event evt;
+	
 	while (pWnd->isOpen()) {
 		//procesar eventos
 		while (pWnd->pollEvent(evt))
@@ -355,13 +370,26 @@ void Juego::prueba_en_consola()
 
 void Juego::resetear_juego()
 {
+	if (Game_over == true)
+	{
 	vida = 5;
 	puntaje = 0;
 	fase = 1;
 	pelotas.clear();
+	for (auto it = pelotas.begin(); it != pelotas.end(); it++)
+	{
+		delete* it;
+	}
+	for (auto it = proyectil_torretaDOS.begin(); it != proyectil_torretaDOS.end(); it++)
+	{
+		delete* it;
+	}
 	proyectil_torretaDOS.clear();
 	bombardero->reset_avion();
 	Game_over = false;
+	menus->set_pantalla_juego(false);
+	menus->set_pantalla_fin(true);
+	}
 }
 
 Juego::~Juego()
@@ -371,10 +399,10 @@ Juego::~Juego()
 	delete pantalla_fondo;
 	delete bombardero;
 	delete Mira_cursor;
-	delete torretaaire;
 	delete menus;
 	delete reloj;
 	delete tiempo1;
+	delete soldado;
 	for (auto it = pelotas.begin(); it != pelotas.end(); it++)
 	{
 		delete* it;

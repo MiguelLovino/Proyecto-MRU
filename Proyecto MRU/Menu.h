@@ -22,9 +22,9 @@ private:
 	
 public:
 	Menu();
-	void inicio_actualizar(Mira *mira, Vector2f mouserposition, RenderWindow* pWnd);
+	void inicio_actualizar(Mira *mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito);
 	void dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor);
-	void fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd);
+	void fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito);
 	void dibujar_fin(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor);
 	void menu_juego_actualizar(int vida);
 	void dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor);

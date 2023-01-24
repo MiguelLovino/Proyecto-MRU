@@ -2,7 +2,7 @@
 
 Menu::Menu()
 {
-
+	//NOTA TILIZAR EVENTOS BUFFERED PARA EL MENU.
 	//Textos correspondiente a la parte del menu INICIO
 	fuente_txt = new Font;
 	fuente_txt->loadFromFile("recursos/Ss.ttf");
@@ -47,13 +47,13 @@ Menu::Menu()
 	
 }
 
-void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* pWnd)
+void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* pWnd, Event &eventito)
 {
 
 	if (pantalla_menu == true)
 	{
 		
-		if (Mouse::isButtonPressed(Mouse::Left))
+		if (eventito.type == eventito.MouseButtonPressed && eventito.mouseButton.button == Mouse::Left)
 		{
 
 			if (mira->get_sprite().getGlobalBounds().intersects(texto_inicio->getGlobalBounds()))
@@ -102,25 +102,15 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 	}
 }
 
-void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd)
+void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event &eventito)
 {
 	
 	if (pantalla_fin == true)
 	{
 		
-		if (Mouse::isButtonPressed(Mouse::Left))
+		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
-			if (mira->get_sprite().getGlobalBounds().intersects(texto_fin->getGlobalBounds()))
-			{
-				
-				pantalla_menu = true;
-				pantalla_fin = false;
-				cout << "se produce el evento de soltar el boton" << endl;
-				
-				//agrego delay para que que no colicione con la otra opcion rapidamente
-			   sleep(milliseconds(250));
-				
-			}
+			
 			if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))
 			{
 				pWnd->close();
@@ -143,6 +133,23 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 		{
 			texo_salir->setFillColor(Color::White);
 		}
+		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
+		{
+			if (mira->get_sprite().getGlobalBounds().intersects(texto_fin->getGlobalBounds()))
+			{
+
+
+				pantalla_menu = true;
+				pantalla_fin = false;
+				cout << "se produce el evento de soltar el boton" << endl;
+
+
+				//agrego delay para que que no colicione con la otra opcion rapidamente
+			 //  sleep(milliseconds(250));
+
+			}
+		}
+		
 		
 	}
 	

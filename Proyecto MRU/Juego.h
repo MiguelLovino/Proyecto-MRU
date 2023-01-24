@@ -11,6 +11,7 @@
 #include "Torreta.h"
 #include "Proyectiles.h"
 #include "Menu.h"
+#include "Jugador.h"
 
 using namespace sf;
 using namespace std;
@@ -26,11 +27,11 @@ private:
 	vector <Pelota*> pelotas;
 	int pantalla_ancho = 800;
 	int pantalla_alto = 600;
-	int vida = 500;
+	int vida = 1;
 	int fase = 1;
 	int puntaje = 0;
 	bool Game_over = false;
-
+	Event evt;
 	//tiempos
 	Clock* reloj;
 	Time* tiempo1;
@@ -45,10 +46,12 @@ private:
 	Avion* bombardero;
 	Mira* Mira_cursor;
 	Torreta* torretaaire;
-	Proyectil* proyectil_torretaaire;
+	Jugador* soldado;
 	vector<Proyectil*> proyectil_torretaDOS;
 	void disparar_proyectiles(Vector2f pos_bocacha, float rotacion);
 	Menu* menus;
+	//rect para despues borrar para soldado y bombardero
+	RectangleShape* soldadoRECT;
 
 public:
 	

@@ -133,6 +133,7 @@
     <ClCompile Include="Avion.cpp" />
     <ClCompile Include="Caballero.cpp" />
     <ClCompile Include="Juego.cpp" />
+    <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mira.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Avion.h" />
     <ClInclude Include="Caballero.h" />
     <ClInclude Include="Juego.h" />
+    <ClInclude Include="Jugador.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mira.h" />
     <ClInclude Include="pantalla.h" />
