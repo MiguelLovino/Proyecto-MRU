@@ -163,15 +163,7 @@ void Juego::UpdateGame()
 	//actualizar avion
 	bombardero->actualizar();
 	
-	//tirar bombas //CONTROLAR AQUI la bomba que queda suelta al incio.
-	if (tiempo2 > tiempo3)
-	{
-		tiempo3 = tiempo2 + 0.25f;
-		if (bombardero->posision_disparo() == true)
-		{
-			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
-		}
-	}
+	
 
 	//actualizar bombas
 	if (pelotas.size() >= 0)
@@ -220,6 +212,16 @@ void Juego::UpdateGame()
 	}
 
 	bombaposition.y = bombardero->get_sprite_avion().getPosition().y + 134;
+
+	//tirar bombas //CONTROLAR AQUI la bomba que queda suelta al incio.
+	if (tiempo2 > tiempo3)
+	{
+		tiempo3 = tiempo2 + 0.25f;
+		if (bombardero->posision_disparo() == true)
+		{
+			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
+		}
+	}
 
 	//actualizar torreta
 	if (vida <= 0)
