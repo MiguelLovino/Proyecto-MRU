@@ -13,7 +13,7 @@ Avion::Avion()
 	sprite_avion = new Sprite;
 	sprite_avion->setTexture(*texture_avion);
 
-	sprite_avion->setPosition(800 , 0);
+	sprite_avion->setPosition(801 , 50);
 	//sprite_avion->setScale(5, 5);
 
 
@@ -27,6 +27,7 @@ Avion::Avion()
 	aceleracion.y = 0;
 
 }
+
 
 void Avion::actualizar()
 {
@@ -61,11 +62,18 @@ void Avion::de_lado_a_lado()
 	}
 	if (sprite_avion->getPosition().x >= 800 + sprite_avion->getGlobalBounds().width)
 	{
-		velocidad.x = -1;
+		velocidad.x = -1; 
 		sprite_avion->setScale(1, 1);
 	}
 	
+}
 
+void Avion::reset_avion()
+{
+	//vuelvo el avion a su posicion original
+	sprite_avion->setPosition(801, 50);
+	sprite_avion->setScale(1, 1);
+	velocidad.x = -1;
 }
 
 bool Avion::posision_disparo()

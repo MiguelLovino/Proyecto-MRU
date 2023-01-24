@@ -18,6 +18,7 @@ public:
 	Sprite get_sprite_avion() { return *sprite_avion; }
 	void actualizar();
 	void de_lado_a_lado();
+	void reset_avion();
 	float get_velocidad_avion_X() { return velocidad.x; }
 	bool posision_disparo();
 };
