@@ -18,6 +18,7 @@ private:
 
 public:
 	Proyectil(Vector2f pos_bocacha, float rotacion);
+	~Proyectil();
 	Sprite get_sprite() { return *sprite_proyectil; }
 	void actualizar(float rotacion);
 	FloatRect get_bounds() { return sprite_proyectil->getGlobalBounds(); }

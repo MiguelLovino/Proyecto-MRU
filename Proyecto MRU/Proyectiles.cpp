@@ -30,6 +30,13 @@ Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion)
 	
 }
 
+Proyectil::~Proyectil()
+{
+	delete reloj;
+	delete sprite_proyectil;
+	delete texture_proyectil;
+}
+
 void Proyectil::actualizar(float rotacion)
 {
 	

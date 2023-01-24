@@ -17,7 +17,7 @@ private:
 	int random_despawn = rand() % 5 + 2;
 public:
 	Pelota(Vector2f mouse_pos, float velocidad_avion);
-	~Pelota() { cout << "mi numero random es" << endl; };
+	~Pelota();
 	void actualizar();
 	void rebote();
 	float get_tiempor_interno() { return tiempo_interno; }

@@ -11,15 +11,10 @@ Juego::Juego(int alto, int ancho, string titulo)
 	Mira_cursor = new Mira;
 	torretaaire = new Torreta;
 	menus = new Menu;
-	//proyectil_torretaaire = new Proyectil;
-	//pelotita = new Pelota;
 	reloj = new Clock;
 	tiempo1 = new Time;
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
-	//pWnd->setKeyRepeatEnabled(false);
-	
-	
 	
 }
 void Juego::ProcessEvent(Event& evt)
@@ -28,14 +23,12 @@ void Juego::ProcessEvent(Event& evt)
 	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
 	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
 
-	
-
-
 	//eventos de teclado, etc
 
 	if (evt.type == evt.Closed)
 	{
 		pWnd->close();
+		
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Escape))
 	{
@@ -49,13 +42,10 @@ void Juego::ProcessEvent(Event& evt)
 		//cout << "funciona la D" << endl;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::A))
-		torretaaire->rota_izquierda();
 	{
-		//jugador->set_velocidad_x(-0.1);
-		
+		torretaaire->rota_izquierda();
+		//jugador->set_velocidad_x(-0.1);	
 	}
-	
-	
 	/*
 	if (Mouse::isButtonPressed(Mouse::Middle) && pantalla_menu == false)
 	{
@@ -63,7 +53,6 @@ void Juego::ProcessEvent(Event& evt)
 		pantalla_fin = true;
 	}
 	*/
-	
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
 		if (pelotas.size() >= 0)
@@ -74,8 +63,9 @@ void Juego::ProcessEvent(Event& evt)
 
 				if (Mira_cursor->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
 				{
+					delete pelotas[i];
 					pelotas.erase(pelotas.begin() + i);
-
+					break;
 				}
 
 			}
@@ -186,9 +176,11 @@ void Juego::UpdateGame()
 
 			if (pelotas[i]->get_sprite().getPosition().y > 300)
 			{
+				delete pelotas[i];
 				pelotas.erase(pelotas.begin()+i);
-				vida--;
 				
+				vida--;
+				break;
 				//break;
 			}
 				
@@ -201,6 +193,8 @@ void Juego::UpdateGame()
 
 	//posiciones y estados
 	// 
+	//NOTA : SE PUEDE HACER UN RECT PARA MANEJAR EL AREA DE LANZAMIENTO Y ASI SERIA MAS FACIL MODIFICAR SU ESPACIO MIENTRAS SE AUMENTA EL NIVEL.
+
 	if (bombardero->get_sprite_avion().getScale().x == 1) //cambio de trayectoria del avion.
 	{
 	bombaposition.x = bombardero->get_sprite_avion().getPosition().x + (bombardero->get_sprite_avion().getGlobalBounds().width / 2);
@@ -219,18 +213,18 @@ void Juego::UpdateGame()
 		tiempo3 = tiempo2 + 0.25f;
 		if (bombardero->posision_disparo() == true)
 		{
+			
 			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
 		}
 	}
 
-	//actualizar torreta
+	//CONDICION DE GAME OVER
 	if (vida <= 0)
 	{
 		Game_over = true;
 	}
 	
-
-	//actualizo la condicion de perdida.
+	//RESETEO EL JUEGO
 	if (Game_over == true)
 	{
 		resetear_juego();
@@ -260,7 +254,9 @@ void Juego::ProcessCollisions()
 				if (proyectil_torretaDOS[j]->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
 				{
 					//cout << "se produjo colicion" << endl;
-				proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
+					delete proyectil_torretaDOS[j];
+					proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
+					delete pelotas[i];
 					pelotas.erase(pelotas.begin() + i);
 					break;
 				}
@@ -276,7 +272,10 @@ void Juego::ProcessCollisions()
 		{
 			if (proyectil_torretaDOS[i]->get_sprite().getPosition().y < 50)
 			{
+				//para no hacer 
+				delete proyectil_torretaDOS[i]; 
 				proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + i);
+				break;
 			}
 		}
 
@@ -289,7 +288,9 @@ void Juego::ProcessCollisions()
 		{
 			if (pelotas[i]->get_sprite().getPosition().y > 500)
 			{
+				delete pelotas[i];
 				pelotas.erase(pelotas.begin() + i);
+				break;
 			}
 		}
 	}
@@ -297,10 +298,6 @@ void Juego::ProcessCollisions()
 	}
 }
 
-Juego::~Juego(void)
-{
-	
-}
 
 void Juego::Go()
 {
@@ -352,7 +349,7 @@ void Juego::prueba_en_consola()
 {
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
-	cout << bombardero->get_sprite_avion().getPosition().x << endl;
+	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
 
 }
 
@@ -365,4 +362,27 @@ void Juego::resetear_juego()
 	proyectil_torretaDOS.clear();
 	bombardero->reset_avion();
 	Game_over = false;
+}
+
+Juego::~Juego()
+{
+	delete pWnd;
+	delete jugador;
+	delete pantalla_fondo;
+	delete bombardero;
+	delete Mira_cursor;
+	delete torretaaire;
+	delete menus;
+	delete reloj;
+	delete tiempo1;
+	for (auto it = pelotas.begin(); it != pelotas.end(); it++)
+	{
+		delete* it;
+	}
+	pelotas.clear();
+	for (auto it = proyectil_torretaDOS.begin(); it != proyectil_torretaDOS.end(); it++)
+	{
+		delete* it;
+	}
+	proyectil_torretaDOS.clear();
 }

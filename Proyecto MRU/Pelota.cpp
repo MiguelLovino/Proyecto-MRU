@@ -37,6 +37,13 @@ Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion)
 	
 }
 
+Pelota::~Pelota()
+{
+	delete reloj_interno;
+	delete pelota_texture;
+	delete pelote_sprite;
+}
+
 void Pelota::actualizar()
 {
 	

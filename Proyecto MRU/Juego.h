@@ -26,7 +26,7 @@ private:
 	vector <Pelota*> pelotas;
 	int pantalla_ancho = 800;
 	int pantalla_alto = 600;
-	int vida = 5;
+	int vida = 500;
 	int fase = 1;
 	int puntaje = 0;
 	bool Game_over = false;
@@ -54,7 +54,7 @@ public:
 	
 	
 	Juego(int alto, int ancho, string titulo);
-	~Juego(void);
+	~Juego();
 	void Go();
 	void prueba_en_consola();
 	void resetear_juego();

@@ -78,7 +78,7 @@ void Avion::reset_avion()
 
 bool Avion::posision_disparo()
 {
-	if (sprite_avion->getPosition().x > 0 && sprite_avion->getPosition().x < 800)
+	if (sprite_avion->getPosition().x > 350 && sprite_avion->getPosition().x < 500)
 	{
 		//cout << "esta en posicion de disparo" << endl;
 		return true;
