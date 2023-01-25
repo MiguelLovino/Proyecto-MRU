@@ -16,12 +16,28 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
 	soldado = new Jugador;
+	//rectangulos de pruebas, borrar al finalizar.
 	soldadoRECT = new RectangleShape;
 	soldadoRECT->setFillColor(Color::Red);
 	Vector2f soldadorecsize;
 	soldadorecsize.x = 5;
 	soldadorecsize.y = 5;
 	soldadoRECT->setSize(soldadorecsize);
+
+	avionRECT = new RectangleShape;
+	avionRECT->setFillColor(Color::Red);
+	Vector2f avionRECTrecsize;
+	avionRECTrecsize.x = 5;
+	avionRECTrecsize.y = 5;
+	avionRECT->setSize(avionRECTrecsize);
+
+	zona_disparoRECT = new RectangleShape;
+	zona_disparoRECT->setFillColor(Color::Green);
+	Vector2f zona_disparoRECTrecsize;
+	zona_disparoRECTrecsize.x = 400;
+	zona_disparoRECTrecsize.y = 100;
+	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+
 
 }
 void Juego::ProcessEvent(Event& evt)
@@ -119,6 +135,8 @@ void Juego::DrawGame()
 	pWnd->draw(soldado->get_sprite());
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 	pWnd->draw(*soldadoRECT);
+	pWnd->draw(*zona_disparoRECT);
+	pWnd->draw(*avionRECT);
 	
 	}
 	//MENUS DE PANTALLA DE JUEGO
@@ -160,7 +178,7 @@ void Juego::UpdateGame()
 	proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 	proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
-	disparar_proyectiles(proyectil_pos_de_disparo, torretaaire->get_sprite_torreta().getRotation()); //disparar proyectiles
+	disparar_proyectiles(proyectil_pos_de_disparo,0); //disparar proyectiles
 
 	//disparar proyectiles actualizar
 	if (proyectil_torretaDOS.size() >= 0)
@@ -184,32 +202,6 @@ void Juego::UpdateGame()
 		}
 	}
 	
-	
-	//destruir bombas si chochan el suelo
-	if (pelotas.size() >= 0)
-	{
-
-		for (int i = 0; i < pelotas.size(); i++)
-
-		{
-			
-
-			if (pelotas[i]->get_sprite().getPosition().y > 300)
-			{
-				delete pelotas[i];
-				pelotas.erase(pelotas.begin()+i);
-				
-				vida--;
-				break;
-				//break;
-			}
-				
-		}
-
-	}
-	
-	//destruir bombas 2;
-
 
 	//posiciones y estados
 	// 
@@ -227,7 +219,7 @@ void Juego::UpdateGame()
 
 	bombaposition.y = bombardero->get_sprite_avion().getPosition().y + 134;
 
-	//tirar bombas //CONTROLAR AQUI la bomba que queda suelta al incio.
+	//tirar bombas
 	if (tiempo2 > tiempo3)
 	{
 		tiempo3 = tiempo2 + 0.25f;
@@ -236,9 +228,13 @@ void Juego::UpdateGame()
 			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
 		}
 	}
+	//personaje
 	soldado->actualizar();
-	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
 
+	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
+	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
+	avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
+	zona_disparoRECT->setPosition(200, 0);
 	//CONDICION DE GAME OVER
 	if (vida <= 0)
 	{
@@ -255,8 +251,6 @@ void Juego::ProcessCollisions()
 {
 	if (menus->get_pantalla_juego() == true)
 	{
-
-	
 	//coliciones
 	//colicion de bombas con proyectiles.
 	if (pelotas.size() >= 0 && proyectil_torretaDOS.size() >= 0)
@@ -279,7 +273,8 @@ void Juego::ProcessCollisions()
 		}
 	}
 	// destruir proyectiles que pasen el eje y = 0;
-
+	/*
+	*/
 	if (proyectil_torretaDOS.size() >= 0)
 	{
 		
@@ -300,14 +295,20 @@ void Juego::ProcessCollisions()
 	if (pelotas.size() >= 0)
 	{
 		for (int i = 0; i < pelotas.size(); i++)
+
 		{
-			if (pelotas[i]->get_sprite().getPosition().y > 500)
+			if (pelotas[i]->get_sprite().getPosition().y > 575)
 			{
 				delete pelotas[i];
 				pelotas.erase(pelotas.begin() + i);
+
+				vida--;
 				break;
+				//break;
 			}
+
 		}
+
 	}
 	
 	}
@@ -322,8 +323,6 @@ void Juego::Go()
 	while (pWnd->isOpen()) {
 		//procesar eventos
 		while (pWnd->pollEvent(evt))
-		
-
 		
 			ProcessEvent(evt);
 		//MENU DE PANTALLA AQUI.
@@ -342,8 +341,6 @@ void Juego::Go()
 
 void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 {
-	 
-
 
 	if (tiempo2 > tiempo4 + 0.10)
 	{

@@ -52,7 +52,8 @@ private:
 	Menu* menus;
 	//rect para despues borrar para soldado y bombardero
 	RectangleShape* soldadoRECT;
-
+	RectangleShape* avionRECT;
+	RectangleShape* zona_disparoRECT;
 public:
 	
 	
