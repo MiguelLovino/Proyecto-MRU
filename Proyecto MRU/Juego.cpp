@@ -9,7 +9,6 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pantalla_fondo = new Pantalla;
 	bombardero = new Avion;
 	Mira_cursor = new Mira;
-	torretaaire = new Torreta;
 	menus = new Menu;
 	reloj = new Clock;
 	tiempo1 = new Time;
@@ -58,18 +57,6 @@ void Juego::ProcessEvent(Event& evt)
 		pWnd->close();
 	}
 
-	//teclado letra D
-	if (Keyboard::isKeyPressed(Keyboard::D))
-	{
-		torretaaire->rota_derecha();
-		
-		//cout << "funciona la D" << endl;
-	}
-	if (Keyboard::isKeyPressed(Keyboard::A))
-	{
-		torretaaire->rota_izquierda();
-		//jugador->set_velocidad_x(-0.1);	
-	}
 	/*
 	if (Mouse::isButtonPressed(Mouse::Middle) && pantalla_menu == false)
 	{
@@ -131,7 +118,7 @@ void Juego::DrawGame()
 		}
 	}
 	
-	pWnd->draw(torretaaire->get_sprite_torreta()); //torreta
+	
 	pWnd->draw(soldado->get_sprite());
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 	pWnd->draw(*soldadoRECT);
@@ -149,7 +136,7 @@ void Juego::UpdateGame()
 	//pantalla menu
 	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd, evt);
 	//pantalla del menu de juego
-	menus->menu_juego_actualizar(vida);
+	menus->menu_juego_actualizar(vida,puntaje,fase);
 	//pantalla  de fin
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
 	
@@ -162,6 +149,11 @@ void Juego::UpdateGame()
 	if (Keyboard::isKeyPressed(Keyboard::A))
 	{
 		soldado->mov_izquierda();
+		//cout << "funciona la D" << endl;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Space))
+	{
+		soldado->saltar();
 		//cout << "funciona la D" << endl;
 	}
 
@@ -186,7 +178,7 @@ void Juego::UpdateGame()
 
 		for (int i = 0; i < proyectil_torretaDOS.size(); i++)
 		{
-			proyectil_torretaDOS[i]->actualizar(torretaaire->get_sprite_torreta().getRotation());
+			proyectil_torretaDOS[i]->actualizar(0);
 		}
 	}
 
@@ -263,6 +255,7 @@ void Juego::ProcessCollisions()
 				if (proyectil_torretaDOS[j]->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
 				{
 					//cout << "se produjo colicion" << endl;
+					puntaje += 10;
 					delete proyectil_torretaDOS[j];
 					proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
 					delete pelotas[i];

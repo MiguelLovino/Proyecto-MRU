@@ -45,7 +45,6 @@ private:
 	Pantalla* pantalla_fondo;
 	Avion* bombardero;
 	Mira* Mira_cursor;
-	Torreta* torretaaire;
 	Jugador* soldado;
 	vector<Proyectil*> proyectil_torretaDOS;
 	void disparar_proyectiles(Vector2f pos_bocacha, float rotacion);

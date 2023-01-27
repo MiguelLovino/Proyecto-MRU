@@ -24,11 +24,16 @@ Menu::Menu()
 	texto_juego_fase = new Text;
 	texto_juego_fase->setFont(*fuente_txt);
 	texto_juego_fase->setString("fase");
+	texto_juego_fase->setFillColor(Color::Black);
+	texto_juego_fase->setPosition(400, 5);
+	texto_juego_fase->setCharacterSize(25);
 
 	texto_juego_puntaje = new Text;
 	texto_juego_puntaje->setFont(*fuente_txt);
 	texto_juego_puntaje->setString("Puntaje");
-
+	texto_juego_puntaje->setFillColor(Color::Black);
+	texto_juego_puntaje->setPosition(650, 5);
+	texto_juego_puntaje->setCharacterSize(25);
 
 
 	//texto correspondiente a la parte del menu FIN
@@ -171,9 +176,12 @@ void Menu::dibujar_fin(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_
 }
 
 
-void Menu::menu_juego_actualizar(int vida)
+void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
 {
+	//agregar puntaje
 	texto_juego_vida->setString("vida: " + to_string(vida));
+	texto_juego_puntaje->setString("puntaje " + to_string(puntaje));
+
 	
 }
 
@@ -182,5 +190,7 @@ void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira
 	if (pantalla_juego == true)
 	{
 		pWnd->draw(*texto_juego_vida);
+		pWnd->draw(*texto_juego_puntaje);
+		pWnd->draw(*texto_juego_fase);
 	}
 }
