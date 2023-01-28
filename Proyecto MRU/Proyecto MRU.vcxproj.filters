@@ -21,9 +21,6 @@
     <ClCompile Include="Juego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Caballero.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Pelota.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mira.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Torreta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Proyectiles.cpp">
@@ -53,9 +47,6 @@
     <ClInclude Include="Juego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Caballero.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Pelota.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,9 +57,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mira.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Torreta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Proyectiles.h">

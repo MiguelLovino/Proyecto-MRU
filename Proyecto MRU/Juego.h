@@ -1,14 +1,12 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "Caballero.h"
 #include "Pelota.h"
 #include "pantalla.h"
 #include "Mira.h"
 #include "Avion.h"
 #include <string>
 #include <vector>
-#include "Torreta.h"
 #include "Proyectiles.h"
 #include "Menu.h"
 #include "Jugador.h"
@@ -23,7 +21,6 @@ private:
 	void DrawGame();
 	void UpdateGame();
 	void ProcessCollisions();
-	Caballero *jugador;
 	vector <Pelota*> pelotas;
 	int pantalla_ancho = 800;
 	int pantalla_alto = 600;

@@ -131,7 +131,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Avion.cpp" />
-    <ClCompile Include="Caballero.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -140,11 +139,9 @@
     <ClCompile Include="pantalla.cpp" />
     <ClCompile Include="Pelota.cpp" />
     <ClCompile Include="Proyectiles.cpp" />
-    <ClCompile Include="Torreta.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Avion.h" />
-    <ClInclude Include="Caballero.h" />
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Jugador.h" />
     <ClInclude Include="Menu.h" />
@@ -152,7 +149,6 @@
     <ClInclude Include="pantalla.h" />
     <ClInclude Include="Pelota.h" />
     <ClInclude Include="Proyectiles.h" />
-    <ClInclude Include="Torreta.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

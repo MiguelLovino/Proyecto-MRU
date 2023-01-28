@@ -5,7 +5,6 @@ Juego::Juego(int alto, int ancho, string titulo)
 	
 {
 	pWnd = new RenderWindow(VideoMode(alto,ancho),titulo);
-	jugador = new Caballero;
 	pantalla_fondo = new Pantalla;
 	bombardero = new Avion;
 	Mira_cursor = new Mira;
@@ -64,26 +63,7 @@ void Juego::ProcessEvent(Event& evt)
 		pantalla_fin = true;
 	}
 	*/
-	if (Mouse::isButtonPressed(Mouse::Left))
-	{
-		if (pelotas.size() >= 0)
-		{
-
-			for (int i = 0; i < pelotas.size(); i++)
-			{
-
-				if (Mira_cursor->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
-				{
-					delete pelotas[i];
-					pelotas.erase(pelotas.begin() + i);
-					break;
-				}
-
-			}
-
-		}
-		
-	}
+	
 
 }
 
@@ -139,7 +119,12 @@ void Juego::UpdateGame()
 	menus->menu_juego_actualizar(vida,puntaje,fase);
 	//pantalla  de fin
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
-	
+	//DISPARAR
+	if (Mouse::isButtonPressed(Mouse::Left))
+	{
+		disparar_proyectiles(proyectil_pos_de_disparo, 0); //crea los proyectilesproyectiles
+
+	}
 	//MOVIMIENTOS
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
@@ -170,7 +155,15 @@ void Juego::UpdateGame()
 	proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 	proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
-	disparar_proyectiles(proyectil_pos_de_disparo,0); //disparar proyectiles
+	
+
+	//personaje
+	soldado->actualizar();
+
+	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
+	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
+	avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
+	zona_disparoRECT->setPosition(200, 0);
 
 	//disparar proyectiles actualizar
 	if (proyectil_torretaDOS.size() >= 0)
@@ -220,13 +213,7 @@ void Juego::UpdateGame()
 			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
 		}
 	}
-	//personaje
-	soldado->actualizar();
-
-	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
-	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
-	avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
-	zona_disparoRECT->setPosition(200, 0);
+	
 	//CONDICION DE GAME OVER
 	if (vida <= 0)
 	{
@@ -341,7 +328,8 @@ void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 
 		// MODIFICAR  ESTA PARTE PARA QUE EL PROYECTIL SALGA DESDE LA BOCACHA.
 
-		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, rotacion));
+		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, rotacion, mouserposition, soldado));
+		
 
 	}
 		//cout << "se dibuja una bala" << endl;
@@ -385,7 +373,6 @@ void Juego::resetear_juego()
 Juego::~Juego()
 {
 	delete pWnd;
-	delete jugador;
 	delete pantalla_fondo;
 	delete bombardero;
 	delete Mira_cursor;

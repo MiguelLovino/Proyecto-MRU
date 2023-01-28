@@ -1,6 +1,6 @@
 #include "Proyectiles.h"
 
-Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion)
+Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugador* soldado)
 {
 	texture_proyectil = new Texture;
 	texture_proyectil->loadFromFile("recursos/proyectil.png");
@@ -9,25 +9,11 @@ Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion)
 	sprite_proyectil->setTexture(*texture_proyectil);
 	sprite_proyectil->setPosition(pos_bocacha);
 	sprite_proyectil->setRotation(rotacion);
-
+	direction = (mira - soldado->get_sprite().getPosition());
 	reloj = new Clock;
 
-
-	velocidad.x = 0;
-	velocidad.y = -10;
 	
-	if (rotacion > 180 && rotacion < 360)
-	{
-		//cout << "resta activa" << endl;
-		aceleracion.x = (rotacion - 360) / 5;
-	}
-	else
-	{
-
-		aceleracion.x = rotacion / 4;
-	}
-	aceleracion.y = -5;
-	
+	//posicion
 }
 
 Proyectil::~Proyectil()
@@ -38,15 +24,13 @@ Proyectil::~Proyectil()
 }
 
 void Proyectil::actualizar(float rotacion)
-{
+{	
 	
-	tiempodelta = reloj->getElapsedTime().asSeconds();
-	//aceleracion.x = rotacion;
-	
-	velocidad.x = aceleracion.x * tiempodelta;
-	
-	// p = pa + v * t
-	// v = v + a *t
-	sprite_proyectil->setPosition(sprite_proyectil->getPosition().x + velocidad.x, sprite_proyectil->getPosition().y + velocidad.y * tiempodelta);
+	longitud = sqrt(direction.x * direction.x + direction.y * direction.y);
+	direction.x = direction.x / longitud;
+	direction.y = direction.y / longitud;
+	tiempodelta = reloj->restart().asSeconds();
+
+	sprite_proyectil->move(direction  *  (tiempodelta * velocidad_proyectil));
 
 }
