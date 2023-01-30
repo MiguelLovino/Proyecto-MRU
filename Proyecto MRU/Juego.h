@@ -51,6 +51,9 @@ private:
 	RectangleShape* soldadoRECT;
 	RectangleShape* avionRECT;
 	RectangleShape* zona_disparoRECT;
+	//sonidos
+	SoundBuffer buffer_explo;
+	Sound sound_explo;
 public:
 	
 	

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 using namespace sf;
 using namespace std;
@@ -15,6 +16,7 @@ private:
 	float tiempo_interno = 0.0f;
 	int random = 1;
 	int random_despawn = rand() % 5 + 2;
+	
 public:
 	Pelota(Vector2f mouse_pos, float velocidad_avion);
 	~Pelota();
@@ -27,4 +29,5 @@ public:
 		return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 	}
 	int get_random_despawn() { return random_despawn; }
+	
 };

@@ -34,11 +34,12 @@ Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion)
 		pelote_sprite->setRotation(velocidad_avion + 34);
 		velocidad.x = RandomNumber(-5, 5);
 	}
-	
+
 }
 
 Pelota::~Pelota()
 {
+	//reproducir el sonido de explocion
 	delete reloj_interno;
 	delete pelota_texture;
 	delete pelote_sprite;

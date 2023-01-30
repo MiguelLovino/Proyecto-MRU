@@ -88,7 +88,7 @@ void Avion::de_lado_a_lado()
 void Avion::reset_avion()
 {
 	//vuelvo el avion a su posicion original
-	sprite_avion->setPosition(801, 50);
+	sprite_avion->setPosition(802, 50);
 	sprite_avion->setScale(1, 1);
 	velocidad.x = -1;
 }

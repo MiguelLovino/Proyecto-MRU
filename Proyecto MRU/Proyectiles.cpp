@@ -11,9 +11,13 @@ Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugado
 	sprite_proyectil->setRotation(rotacion);
 	direction = (mira - soldado->get_sprite().getPosition());
 	reloj = new Clock;
-
-	
+	//Sonido
+	//el sonido se ejecuta cuando el proyectil sale disparado.
+	buffer_proyectil.loadFromFile("recursos/Sonido/proyectil.wav");
+	sound_proyectil.setBuffer(buffer_proyectil);
+	sound_proyectil.play();
 	//posicion
+	
 }
 
 Proyectil::~Proyectil()

@@ -36,6 +36,10 @@ Juego::Juego(int alto, int ancho, string titulo)
 	zona_disparoRECTrecsize.y = 100;
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
 
+	//sonidos
+	buffer_explo.loadFromFile("recursos/Sonido/explota bomba.ogg");
+	sound_explo.setBuffer(buffer_explo);
+
 
 }
 void Juego::ProcessEvent(Event& evt)
@@ -246,6 +250,7 @@ void Juego::ProcessCollisions()
 					puntaje += 10;
 					delete proyectil_torretaDOS[j];
 					proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
+					sound_explo.play();
 					delete pelotas[i];
 					pelotas.erase(pelotas.begin() + i);
 					break;
@@ -280,9 +285,9 @@ void Juego::ProcessCollisions()
 		{
 			if (pelotas[i]->get_sprite().getPosition().y > 575)
 			{
+				sound_explo.play();
 				delete pelotas[i];
 				pelotas.erase(pelotas.begin() + i);
-
 				vida--;
 				break;
 				//break;
@@ -343,7 +348,7 @@ void Juego::prueba_en_consola()
 {
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
-	cout << bombardero->get_sprite_avion().getPosition().x << endl;
+	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
 
 }
 

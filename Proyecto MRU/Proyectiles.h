@@ -20,6 +20,9 @@ private:
 	Vector2f direction;
 	float longitud;
 	float velocidad_proyectil = 500;
+	SoundBuffer buffer_proyectil;
+	Sound sound_proyectil;
+
 public:
 	Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugador* soldado);
 	~Proyectil();
