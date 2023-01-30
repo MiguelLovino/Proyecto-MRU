@@ -16,8 +16,6 @@ Avion::Avion()
 	sprite_avion->setPosition(801 , 50);
 	//sprite_avion->setScale(5, 5);
 
-
-
 	//vectores de movimiento
 
 	velocidad.x = -1;
@@ -26,12 +24,23 @@ Avion::Avion()
 	aceleracion.x = 0;
 	aceleracion.y = 0;
 
+	//avion en pantalla
+	avion_en_pantalla.setSize(Vector2f(800,300));
+	avion_en_pantalla.setPosition(0, 0);
+
+
+
+	//sonidos
+	buffer_avion.loadFromFile("recursos/Sonido/avion.ogg");
+	sound_avion.setBuffer(buffer_avion);
 }
 
 
 void Avion::actualizar()
 {
+	//CONTROLARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 	//tiempo1 = reloj->getElapsedTime().asSeconds();
+
 
 	tiempo1 = 3.20f;
 
@@ -49,6 +58,7 @@ void Avion::actualizar()
 	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad*tiempo1) );
 	de_lado_a_lado();
 	posision_disparo();
+	reproducir_sonido_avion();
 }
 
 void Avion::de_lado_a_lado()
@@ -57,14 +67,21 @@ void Avion::de_lado_a_lado()
 
 	if (sprite_avion->getPosition().x <= 0 - sprite_avion->getGlobalBounds().width)
 	{
+		
 		velocidad.x = 1;
 		sprite_avion->setScale(-1, 1); //dar vuelta la imagen
+	
+		
 	}
+	
 	if (sprite_avion->getPosition().x >= 800 + sprite_avion->getGlobalBounds().width)
 	{
+		
 		velocidad.x = -1; 
 		sprite_avion->setScale(1, 1);
+		
 	}
+
 	
 }
 
@@ -88,9 +105,23 @@ bool Avion::posision_disparo()
 		return false;
 	}
 
+}
 
+void Avion::reproducir_sonido_avion()
+{
+	//si, el avion se encuentra "adentro de la pantalla" (intercept?), se reproduce el sonido.
+	//si no, se para el sonido y se actualiza el boleano.
+	if (sprite_avion->getGlobalBounds().intersects(avion_en_pantalla.getGlobalBounds()))
+	{
+		if (rep_avion == true)
+		{
+		sound_avion.play();
+		rep_avion = false;
+		}
 
-
-
-
+	}
+	else
+	{
+		rep_avion = true;
+	}
 }

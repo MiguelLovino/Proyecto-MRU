@@ -50,6 +50,10 @@ Menu::Menu()
 	texo_salir->setPosition(300, 300);
 	texo_salir->setCharacterSize(50);
 	
+	//sonido correspondientes a los menus.
+	
+	buffer_menu.loadFromFile("recursos/Sonido/sonido menu.ogg");
+	sonido_menu.setBuffer(buffer_menu);
 }
 
 void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* pWnd, Event &eventito)
@@ -77,18 +81,30 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 		if (mira->get_sprite().getGlobalBounds().intersects(texto_inicio->getGlobalBounds()))
 		{
 			texto_inicio->setFillColor(Color::Black);
+			if (rep_jugar == true)
+			{
+				sonido_menu.play();
+				rep_jugar = false;
+			}
 		}
 		else
 		{
 			texto_inicio->setFillColor(Color::White);
+			rep_jugar = true;
 		}
 		if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))
 		{
 			texo_salir->setFillColor(Color::Black);
+			if (rep_salir == true)
+			{
+				sonido_menu.play();
+				rep_salir = false;
+			}
 		}
 		else
 		{
 			texo_salir->setFillColor(Color::White);
+			rep_salir = true;
 		}
 
 	}
@@ -113,6 +129,7 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 	if (pantalla_fin == true)
 	{
 		
+
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
 			
@@ -121,31 +138,49 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 				pWnd->close();
 			}
 		}
+
 		mira->set_pos_mira(mouserposition);
+
 		if (mira->get_sprite().getGlobalBounds().intersects(texto_fin->getGlobalBounds()))
 		{
 			texto_fin->setFillColor(Color::Black);
+			//ejecutar sonido
+			if (rep_reiniciar == true)
+			{
+			sonido_menu.play();
+			rep_reiniciar = false;
+			}
+			
 		}
 		else
 		{
 			texto_fin->setFillColor(Color::White);
+			rep_reiniciar = true;
 		}
 		if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))
 		{
 			texo_salir->setFillColor(Color::Black);
+			//ejecutar sonido
+			if (rep_salir == true)
+			{
+				sonido_menu.play();
+				rep_salir = false;
+			}
 		}
 		else
 		{
 			texo_salir->setFillColor(Color::White);
+			rep_salir = true;
 		}
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
 			if (mira->get_sprite().getGlobalBounds().intersects(texto_fin->getGlobalBounds()))
 			{
 
-
+				//cambiar de pantallla
 				pantalla_menu = true;
 				pantalla_fin = false;
+				sonido_menu.play();
 				cout << "se produce el evento de soltar el boton" << endl;
 
 

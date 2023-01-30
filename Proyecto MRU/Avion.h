@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 using namespace sf;
 using namespace std;
@@ -12,6 +13,11 @@ private:
 	Vector2f aceleracion;
 	Clock* reloj;
 	float tiempo1 = 0.0f;
+	SoundBuffer buffer_avion;
+	Sound sound_avion;
+	bool rep_avion = true;
+	bool rep_avion2 = true;
+	RectangleShape avion_en_pantalla;
 	
 public:
 	Avion();
@@ -21,4 +27,5 @@ public:
 	void reset_avion();
 	float get_velocidad_avion_X() { return velocidad.x; }
 	bool posision_disparo();
+	void reproducir_sonido_avion();
 };

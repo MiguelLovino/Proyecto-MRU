@@ -12,6 +12,9 @@ private:
 	bool pantalla_menu = false;
 	bool pantalla_juego = false;
 	bool pantalla_fin = true;
+	bool rep_reiniciar = true;
+	bool rep_salir = true;
+	bool rep_jugar = true;
 	Text *texto_inicio;
 	Text *texto_juego_vida;
 	Text* texto_juego_puntaje;
@@ -19,6 +22,8 @@ private:
 	Text *texto_fin;
 	Text *texo_salir;
 	Font *fuente_txt;
+	SoundBuffer buffer_menu;
+	Sound sonido_menu;
 	
 public:
 	Menu();

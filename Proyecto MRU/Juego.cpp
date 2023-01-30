@@ -119,32 +119,33 @@ void Juego::UpdateGame()
 	menus->menu_juego_actualizar(vida,puntaje,fase);
 	//pantalla  de fin
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
-	//DISPARAR
-	if (Mouse::isButtonPressed(Mouse::Left))
-	{
-		disparar_proyectiles(proyectil_pos_de_disparo, 0); //crea los proyectilesproyectiles
-
-	}
-	//MOVIMIENTOS
-	if (Keyboard::isKeyPressed(Keyboard::D))
-	{
-		soldado->mov_derecha();
-		//cout << "funciona la D" << endl;
-	}
-	if (Keyboard::isKeyPressed(Keyboard::A))
-	{
-		soldado->mov_izquierda();
-		//cout << "funciona la D" << endl;
-	}
-	if (Keyboard::isKeyPressed(Keyboard::Space))
-	{
-		soldado->saltar();
-		//cout << "funciona la D" << endl;
-	}
-
+	
 	//pantalla juego
 	if (menus->get_pantalla_juego() == true)
 	{
+		//DISPARAR
+		if (Mouse::isButtonPressed(Mouse::Left))
+		{
+			disparar_proyectiles(proyectil_pos_de_disparo, 0); //crea los proyectilesproyectiles
+
+		}
+		//MOVIMIENTOS
+		if (Keyboard::isKeyPressed(Keyboard::D))
+		{
+			soldado->mov_derecha();
+			//cout << "funciona la D" << endl;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::A))
+		{
+			soldado->mov_izquierda();
+			//cout << "funciona la D" << endl;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			soldado->saltar();
+			//cout << "funciona la D" << endl;
+		}
+
 	//reloj
 	tiempo2 = reloj->getElapsedTime().asSeconds();
 
@@ -322,7 +323,7 @@ void Juego::Go()
 void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 {
 
-	if (tiempo2 > tiempo4 + 0.10)
+	if (tiempo2 > tiempo4 + 0.50)
 	{
 		tiempo4 = tiempo2;
 
@@ -342,7 +343,7 @@ void Juego::prueba_en_consola()
 {
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
-	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
+	cout << bombardero->get_sprite_avion().getPosition().x << endl;
 
 }
 
