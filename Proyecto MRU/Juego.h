@@ -54,6 +54,9 @@ private:
 	//sonidos
 	SoundBuffer buffer_explo;
 	Sound sound_explo;
+	SoundBuffer buffer_vida_menos;
+	Sound sound_vida_menos;
+
 public:
 	
 	

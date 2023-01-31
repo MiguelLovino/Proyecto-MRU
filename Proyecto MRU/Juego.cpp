@@ -39,8 +39,11 @@ Juego::Juego(int alto, int ancho, string titulo)
 	//sonidos
 	buffer_explo.loadFromFile("recursos/Sonido/explota bomba.ogg");
 	sound_explo.setBuffer(buffer_explo);
+	//gameover
+	buffer_vida_menos.loadFromFile("recursos/Sonido/game over.ogg");
+	sound_vida_menos.setBuffer(buffer_vida_menos);
 
-
+	
 }
 void Juego::ProcessEvent(Event& evt)
 {
@@ -222,6 +225,7 @@ void Juego::UpdateGame()
 	//CONDICION DE GAME OVER
 	if (vida <= 0)
 	{
+		sound_vida_menos.play();
 		Game_over = true;
 	}
 	
@@ -277,7 +281,7 @@ void Juego::ProcessCollisions()
 
 	}
 
-	// destuir bombas que pasen el eje y = 600;
+	// destuir bombas que pasen el eje y = 600; SE PIERDE UNA VIDA
 	if (pelotas.size() >= 0)
 	{
 		for (int i = 0; i < pelotas.size(); i++)
@@ -288,6 +292,8 @@ void Juego::ProcessCollisions()
 				sound_explo.play();
 				delete pelotas[i];
 				pelotas.erase(pelotas.begin() + i);
+				//sonido de perdida de vida. 
+				
 				vida--;
 				break;
 				//break;
