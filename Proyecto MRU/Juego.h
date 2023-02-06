@@ -48,7 +48,7 @@ private:
 	void disparar_proyectiles(Vector2f pos_bocacha, float rotacion);
 	Menu* menus;
 	//rect para despues borrar para soldado y bombardero
-	RectangleShape* soldadoRECT;
+	sf::RectangleShape* soldadoRECT;
 	RectangleShape* avionRECT;
 	RectangleShape* zona_disparoRECT;
 	//sonidos

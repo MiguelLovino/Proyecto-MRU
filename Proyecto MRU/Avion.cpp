@@ -31,8 +31,9 @@ Avion::Avion()
 
 
 	//sonidos
-	buffer_avion.loadFromFile("recursos/Sonido/avion.ogg");
+	buffer_avion.loadFromFile("recursos/Sonido/avion2.wav");
 	sound_avion.setBuffer(buffer_avion);
+	sound_avion.setVolume(50);
 }
 
 
@@ -115,13 +116,16 @@ void Avion::reproducir_sonido_avion()
 	{
 		if (rep_avion == true)
 		{
+			
 		sound_avion.play();
+		sound_avion.setPlayingOffset(seconds(15));
 		rep_avion = false;
 		}
 
 	}
 	else
 	{
+		sound_avion.stop();
 		rep_avion = true;
 	}
 }

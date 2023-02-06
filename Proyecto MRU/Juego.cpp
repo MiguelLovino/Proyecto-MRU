@@ -38,10 +38,11 @@ Juego::Juego(int alto, int ancho, string titulo)
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
 
 	//sonidos
-	buffer_explo.loadFromFile("recursos/Sonido/explota bomba.ogg");
+	buffer_explo.loadFromFile("recursos/Sonido/explota bomba2.ogg");
 	sound_explo.setBuffer(buffer_explo);
+	sound_explo.setVolume(25);
 	//gameover
-	buffer_vida_menos.loadFromFile("recursos/Sonido/game over.ogg");
+	buffer_vida_menos.loadFromFile("recursos/Sonido/game over2.wav");
 	sound_vida_menos.setBuffer(buffer_vida_menos);
 
 	
@@ -366,6 +367,7 @@ void Juego::prueba_en_consola()
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
 	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
+	cout << "hola mama" << endl;
 
 }
 

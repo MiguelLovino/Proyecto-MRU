@@ -15,6 +15,7 @@ Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado)
 	//el sonido se ejecuta cuando el proyectil sale disparado.
 	buffer_proyectil.loadFromFile("recursos/Sonido/proyectil.wav");
 	sound_proyectil.setBuffer(buffer_proyectil);
+	sound_proyectil.setVolume(20);
 	sound_proyectil.play();
 	//posicion
 	
