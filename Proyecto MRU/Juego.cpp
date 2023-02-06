@@ -4,6 +4,7 @@
 Juego::Juego(int alto, int ancho, string titulo)
 	
 {
+	//hola
 	pWnd = new RenderWindow(VideoMode(alto,ancho),titulo);
 	pantalla_fondo = new Pantalla;
 	bombardero = new Avion;
