@@ -160,16 +160,26 @@ void Juego::UpdateGame()
 	Mira_cursor->set_pos_mira(mouserposition);
 
 	//disparar proyectiles (los crea)
+	
 	proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 	proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
 	
 
 	//personaje
-	soldado->actualizar();
+	soldado->actualizar(Mira_cursor->get_sprite().getPosition());
 
 	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
-	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x, soldado->get_sprite().getPosition().y);
+	if (Mira_cursor->get_sprite().getPosition().x > soldado->get_sprite().getPosition().x)
+	{
+	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x +23, soldado->get_sprite().getPosition().y);
+
+	}
+	else
+	{
+	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x + 23 *-1, soldado->get_sprite().getPosition().y);
+	}
+
 	avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
 	zona_disparoRECT->setPosition(200, 0);
 
@@ -179,7 +189,7 @@ void Juego::UpdateGame()
 
 		for (int i = 0; i < proyectil_torretaDOS.size(); i++)
 		{
-			proyectil_torretaDOS[i]->actualizar(0);
+			proyectil_torretaDOS[i]->actualizar();
 		}
 	}
 
@@ -340,7 +350,7 @@ void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 
 		// MODIFICAR  ESTA PARTE PARA QUE EL PROYECTIL SALGA DESDE LA BOCACHA.
 
-		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, rotacion, mouserposition, soldado));
+		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition, soldado));
 		
 
 	}

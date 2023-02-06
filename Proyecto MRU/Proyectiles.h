@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Mira.h"
 #include "Jugador.h"
+#include "cmath"
+
 using namespace sf;
 using namespace std;
 
@@ -24,9 +26,9 @@ private:
 	Sound sound_proyectil;
 
 public:
-	Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugador* soldado);
+	Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado);
 	~Proyectil();
 	Sprite get_sprite() { return *sprite_proyectil; }
-	void actualizar(float rotacion);
+	void actualizar();
 	FloatRect get_bounds() { return sprite_proyectil->getGlobalBounds(); }
 };

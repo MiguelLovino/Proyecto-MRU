@@ -1,14 +1,14 @@
 #include "Proyectiles.h"
 
-Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugador* soldado)
+Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado)
 {
 	texture_proyectil = new Texture;
-	texture_proyectil->loadFromFile("recursos/proyectil.png");
+	texture_proyectil->loadFromFile("recursos/proyectil2.png");
 	sprite_proyectil = new Sprite;
 	sprite_proyectil->setColor(Color::Red);
 	sprite_proyectil->setTexture(*texture_proyectil);
 	sprite_proyectil->setPosition(pos_bocacha);
-	sprite_proyectil->setRotation(rotacion);
+	sprite_proyectil->setScale(0.5, 0.5);
 	direction = (mira - soldado->get_sprite().getPosition());
 	reloj = new Clock;
 	//Sonido
@@ -18,6 +18,7 @@ Proyectil::Proyectil(Vector2f pos_bocacha, float rotacion, Vector2f mira, Jugado
 	sound_proyectil.play();
 	//posicion
 	
+
 }
 
 Proyectil::~Proyectil()
@@ -27,14 +28,14 @@ Proyectil::~Proyectil()
 	delete texture_proyectil;
 }
 
-void Proyectil::actualizar(float rotacion)
+void Proyectil::actualizar()
 {	
-	
+	// teorema de pitagoras.
 	longitud = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction.x = direction.x / longitud;
 	direction.y = direction.y / longitud;
 	tiempodelta = reloj->restart().asSeconds();
-
 	sprite_proyectil->move(direction  *  (tiempodelta * velocidad_proyectil));
 
 }
+
