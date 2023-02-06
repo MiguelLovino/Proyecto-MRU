@@ -367,7 +367,6 @@ void Juego::prueba_en_consola()
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
 	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
-	cout << "hola mama" << endl;
 
 }
 

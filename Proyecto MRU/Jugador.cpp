@@ -57,8 +57,8 @@ void Jugador::actualizar(Vector2f mira)
 	dar_vuelta(mira);
 
 	
-	cout << jugador_sprite->getPosition().y << endl;
-	cout << velocidad.y << endl;
+	//cout << jugador_sprite->getPosition().y << endl;
+	//cout << velocidad.y << endl;
 }
 
 void Jugador::dar_vuelta(Vector2f mira)

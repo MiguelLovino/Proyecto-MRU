@@ -52,7 +52,7 @@ Menu::Menu()
 	
 	//sonido correspondientes a los menus.
 	
-	buffer_menu.loadFromFile("recursos/Sonido/sonido menu.ogg");
+	buffer_menu.loadFromFile("recursos/Sonido/sonido menu.wav");
 	sonido_menu.setBuffer(buffer_menu);
 }
 
