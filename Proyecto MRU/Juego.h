@@ -25,6 +25,8 @@ private:
 	vector <Pelota*> pelotas;
 	int pantalla_ancho = 800;
 	int pantalla_alto = 600;
+	RectangleShape limite_ancho_izquierda;
+	RectangleShape limite_ancho_derecha;
 	int vida = 1;
 	int fase = 1;
 	int puntaje = 0;

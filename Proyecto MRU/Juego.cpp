@@ -15,7 +15,7 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
 	soldado = new Jugador;
-	//rectangulos de pruebas, borrar al finalizar.
+	//rectangulos de pruebas, borrar al finalizar (CONTROLAR ANTES).
 	soldadoRECT = new RectangleShape;
 	soldadoRECT->setFillColor(Color::Red);
 	Vector2f soldadorecsize;
@@ -37,6 +37,9 @@ Juego::Juego(int alto, int ancho, string titulo)
 	zona_disparoRECTrecsize.y = 100;
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
 
+	limite_ancho_derecha.setSize(Vector2f(1, pantalla_alto));
+	limite_ancho_derecha.setPosition(pantalla_ancho, 0);
+	limite_ancho_izquierda.setSize(Vector2f(1, pantalla_alto));
 	//sonidos
 	buffer_explo.loadFromFile("recursos/Sonido/explota bomba2.ogg");
 	sound_explo.setBuffer(buffer_explo);
@@ -169,7 +172,7 @@ void Juego::UpdateGame()
 	
 
 	//personaje
-	soldado->actualizar(Mira_cursor->get_sprite().getPosition());
+	soldado->actualizar(Mira_cursor->get_sprite().getPosition(),limite_ancho_derecha,limite_ancho_izquierda);
 
 	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
 	if (Mira_cursor->get_sprite().getPosition().x > soldado->get_sprite().getPosition().x)
@@ -287,6 +290,7 @@ void Juego::ProcessCollisions()
 				//para no hacer 
 				delete proyectil_torretaDOS[i]; 
 				proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + i);
+				
 				break;
 			}
 		}
@@ -367,6 +371,7 @@ void Juego::prueba_en_consola()
 	//colocar aqui adentro todo los cout.
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
 	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
+	//cout << soldado->get_sprite().getPosition().x << endl;
 
 }
 

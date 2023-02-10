@@ -9,12 +9,13 @@ using namespace std;
 
 class Menu {
 private:
-	bool pantalla_menu = false;
+	bool pantalla_menu = true;
 	bool pantalla_juego = false;
-	bool pantalla_fin = true;
+	bool pantalla_fin = false;
 	bool rep_reiniciar = true;
 	bool rep_salir = true;
 	bool rep_jugar = true;
+	bool menu_loop = true;
 	Text *texto_inicio;
 	Text *texto_juego_vida;
 	Text* texto_juego_puntaje;
@@ -24,6 +25,8 @@ private:
 	Font *fuente_txt;
 	SoundBuffer buffer_menu;
 	Sound sonido_menu;
+	SoundBuffer Buffer_menu_loop;
+	Sound sonido_menu_loop;
 	
 public:
 	Menu();

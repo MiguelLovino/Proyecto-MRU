@@ -15,6 +15,8 @@ private:
 	Vector2f aceleracion;
 	Clock Reloj;
 	float tiempo_delta;
+	bool mira_derecha = true;
+	bool mira_izquierda = true;
 
 public:
 	Jugador();
@@ -23,6 +25,6 @@ public:
 	void saltar();
 	void mov_derecha();
 	void mov_izquierda();
-	void actualizar(Vector2f mira);
+	void actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI);
 	void dar_vuelta(Vector2f mira);
 };

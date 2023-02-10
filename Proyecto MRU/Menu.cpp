@@ -10,7 +10,7 @@ Menu::Menu()
 	texto_inicio = new Text;
 	texto_inicio->setFont(*fuente_txt);
 	texto_inicio->setString("JUGAR");
-	texto_inicio->setPosition(300, 200);
+	texto_inicio->setPosition(100, 200);
 	texto_inicio->setCharacterSize(50);
 
 	//textos correspondiente a la parte del juego
@@ -47,13 +47,18 @@ Menu::Menu()
 	texo_salir = new Text;
 	texo_salir->setFont(*fuente_txt);
 	texo_salir->setString("SALIR");
-	texo_salir->setPosition(300, 300);
+	texo_salir->setPosition(100, 300);
 	texo_salir->setCharacterSize(50);
 	
 	//sonido correspondientes a los menus.
 	
 	buffer_menu.loadFromFile("recursos/Sonido/sonido menu.wav");
 	sonido_menu.setBuffer(buffer_menu);
+	sonido_menu.setVolume(35);
+
+	Buffer_menu_loop.loadFromFile("recursos/Sonido/menu song.wav");
+	sonido_menu_loop.setBuffer(Buffer_menu_loop);
+
 }
 
 void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* pWnd, Event &eventito)
@@ -61,7 +66,12 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 
 	if (pantalla_menu == true)
 	{
-		
+		if (menu_loop == true)
+		{
+		sonido_menu_loop.play();
+		menu_loop = false;
+		}
+		texo_salir->setPosition(100, 300);
 		if (eventito.type == eventito.MouseButtonPressed && eventito.mouseButton.button == Mouse::Left)
 		{
 
@@ -108,6 +118,10 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 		}
 
 	}
+	else
+	{
+		sonido_menu_loop.stop();
+	}
 }
 
 void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor)
@@ -128,7 +142,7 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 	
 	if (pantalla_fin == true)
 	{
-		
+		texo_salir->setPosition(300, 300);
 
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
