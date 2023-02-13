@@ -15,5 +15,5 @@ private:
 public:
 	Mira();
 	Sprite get_sprite() { return *sprite_mira; }
-	void set_pos_mira(Vector2f mouserposition) { return sprite_mira->setPosition(mouserposition); }
+	void set_pos_mira(Vector2f mouserposition) { sprite_mira->setPosition(mouserposition); }
 };

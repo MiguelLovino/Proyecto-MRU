@@ -27,4 +27,5 @@ public:
 	void mov_izquierda();
 	void actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI);
 	void dar_vuelta(Vector2f mira);
+	void reset();
 };

@@ -130,3 +130,8 @@ void Jugador::dar_vuelta(Vector2f mira)
 		
 	}
 }
+
+void Jugador::reset()
+{
+	jugador_sprite->setPosition(400, jugador_sprite->getPosition().y);
+}

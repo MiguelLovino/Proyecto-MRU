@@ -4,7 +4,7 @@
 Juego::Juego(int alto, int ancho, string titulo)
 	
 {
-	//hola
+	
 	pWnd = new RenderWindow(VideoMode(alto,ancho),titulo);
 	pantalla_fondo = new Pantalla;
 	bombardero = new Avion;
@@ -52,9 +52,7 @@ Juego::Juego(int alto, int ancho, string titulo)
 }
 void Juego::ProcessEvent(Event& evt)
 {
-	//eventos de mouse
-	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
-	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
+	
 
 	//eventos de teclado, etc
 
@@ -68,24 +66,17 @@ void Juego::ProcessEvent(Event& evt)
 		pWnd->close();
 	}
 
-	/*
-	if (Mouse::isButtonPressed(Mouse::Middle) && pantalla_menu == false)
-	{
-		pantalla_juego = false;
-		pantalla_fin = true;
-	}
-	*/
-	
-
 }
 
 void Juego::DrawGame()
 {
 	//PANTALLA DE INICIO
+
 	menus->dibujar_inicio(pWnd, pantalla_fondo, Mira_cursor);
+
 	//PANTALLA DE FIN
+
 	menus->dibujar_fin(pWnd, pantalla_fondo, Mira_cursor);
-	
 	
 	//PANTALLA DEL JUEGO
 	
@@ -93,6 +84,7 @@ void Juego::DrawGame()
 	{
 
 	pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
+
 	pWnd->draw(bombardero->get_sprite_avion()); //avion
 
 	if (pelotas.size() > 0) //dibujo las bombas
@@ -120,6 +112,7 @@ void Juego::DrawGame()
 	}
 	//MENUS DE PANTALLA DE JUEGO
 	menus->dibujar_menu_juego(pWnd, pantalla_fondo, Mira_cursor);
+
 }
 
 void Juego::UpdateGame()
@@ -127,14 +120,45 @@ void Juego::UpdateGame()
 	//MENU
 	//pantalla menu
 	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd, evt);
+
 	//pantalla del menu de juego
 	menus->menu_juego_actualizar(vida,puntaje,fase);
+
 	//pantalla  de fin
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
-	
-	//pantalla juego
+
+	//mira
+	//eventos de mouse ***CONTROLAR*******
+	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
+	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
+
+	if (mouserposition.x < 0)
+	{
+		mouserposition.x = 0;
+
+	}
+	if (mouserposition.x > pantalla_ancho)
+	{
+		mouserposition.x = pantalla_ancho;
+
+	}
+	if (mouserposition.y < 0)
+	{
+		mouserposition.y = 0;
+
+	}
+	if (mouserposition.y > pantalla_alto)
+	{
+		mouserposition.y = pantalla_alto;
+
+	}
+
+	Mira_cursor->set_pos_mira(mouserposition);
+
+	//*************************GAMEPLAY SCREEN*************************************
 	if (menus->get_pantalla_juego() == true)
 	{
+		//EVENTOS
 		//DISPARAR
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
@@ -145,36 +169,31 @@ void Juego::UpdateGame()
 		if (Keyboard::isKeyPressed(Keyboard::D))
 		{
 			soldado->mov_derecha();
-			//cout << "funciona la D" << endl;
+		
 		}
 		if (Keyboard::isKeyPressed(Keyboard::A))
 		{
 			soldado->mov_izquierda();
-			//cout << "funciona la D" << endl;
+			
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
 			soldado->saltar();
-			//cout << "funciona la D" << endl;
+			
 		}
 
 	//reloj
 	tiempo2 = reloj->getElapsedTime().asSeconds();
-
-	//mira
-	Mira_cursor->set_pos_mira(mouserposition);
 
 	//disparar proyectiles (los crea)
 	
 	proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 	proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
-	
-
 	//personaje
 	soldado->actualizar(Mira_cursor->get_sprite().getPosition(),limite_ancho_derecha,limite_ancho_izquierda);
 
-	//RECTANGULOS DE PRUEBA ACTUALIZAR POS
+	//RECTANGULOS DE PRUEBA ACTUALIZAR POS **CONTROLARRRRRRR**
 	if (Mira_cursor->get_sprite().getPosition().x > soldado->get_sprite().getPosition().x)
 	{
 	soldadoRECT->setPosition(soldado->get_sprite().getPosition().x +23, soldado->get_sprite().getPosition().y);
@@ -210,9 +229,8 @@ void Juego::UpdateGame()
 		}
 	}
 	
-
 	//posiciones y estados
-	// 
+	
 	//NOTA : SE PUEDE HACER UN RECT PARA MANEJAR EL AREA DE LANZAMIENTO Y ASI SERIA MAS FACIL MODIFICAR SU ESPACIO MIENTRAS SE AUMENTA EL NIVEL.
 
 	if (bombardero->get_sprite_avion().getScale().x == 1) //cambio de trayectoria del avion.
@@ -237,14 +255,15 @@ void Juego::UpdateGame()
 		}
 	}
 	
-	//CONDICION DE GAME OVER
+	//*************************GAMEOVER*************************************
 	if (vida <= 0)
 	{
 		sound_vida_menos.play();
 		Game_over = true;
 	}
 	
-	//RESETEO EL JUEGO cuando pierdo.
+	//*************************GAME RESET*************************************
+
 	resetear_juego();
 	
 	}
@@ -252,6 +271,8 @@ void Juego::UpdateGame()
 
 void Juego::ProcessCollisions()
 {
+	
+	//****************GAME MENU***************************************//
 	if (menus->get_pantalla_juego() == true)
 	{
 	//coliciones
@@ -277,42 +298,39 @@ void Juego::ProcessCollisions()
 			}
 		}
 	}
-	// destruir proyectiles que pasen el eje y = 0;
-	/*
-	*/
+	
 	if (proyectil_torretaDOS.size() >= 0)
 	{
 		
 		for (int i = 0; i < proyectil_torretaDOS.size(); i++)
 		{
-			if (proyectil_torretaDOS[i]->get_sprite().getPosition().y < 50)
+			int y = proyectil_torretaDOS[i]->get_sprite().getPosition().y;
+			int x = proyectil_torretaDOS[i]->get_sprite().getPosition().x;
+			
+			if (y < 50 || y > pantalla_alto || x < 20 || x > pantalla_ancho)
 			{
-				//para no hacer 
 				delete proyectil_torretaDOS[i]; 
 				proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + i);
-				
 				break;
 			}
 		}
 
 	}
 
-	// destuir bombas que pasen el eje y = 600; SE PIERDE UNA VIDA
+	
 	if (pelotas.size() >= 0)
 	{
 		for (int i = 0; i < pelotas.size(); i++)
 
 		{
-			if (pelotas[i]->get_sprite().getPosition().y > 575)
+			if (pelotas[i]->get_sprite().getPosition().y > 575) //CHECKEAR LA DISTANCIA
 			{
 				sound_explo.play();
 				delete pelotas[i];
 				pelotas.erase(pelotas.begin() + i);
-				//sonido de perdida de vida. 
-				
+				//SONIDO DE PERDIDA DE VIDA
 				vida--;
 				break;
-				//break;
 			}
 
 		}
@@ -354,16 +372,9 @@ void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 	{
 		tiempo4 = tiempo2;
 
-		// MODIFICAR  ESTA PARTE PARA QUE EL PROYECTIL SALGA DESDE LA BOCACHA.
-
 		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition, soldado));
-		
 
 	}
-		//cout << "se dibuja una bala" << endl;
-		//cout << sprite_torreta.getRotation() << endl;
-		//tiempo2 = tiempo1;
-	
 }
 
 void Juego::prueba_en_consola()
@@ -372,7 +383,7 @@ void Juego::prueba_en_consola()
 	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
 	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
 	//cout << soldado->get_sprite().getPosition().x << endl;
-
+	//cout << Mira_cursor->get_sprite().getPosition().x << endl;
 }
 
 void Juego::resetear_juego()
@@ -393,6 +404,7 @@ void Juego::resetear_juego()
 	}
 	proyectil_torretaDOS.clear();
 	bombardero->reset_avion();
+	soldado->reset();
 	Game_over = false;
 	menus->set_pantalla_juego(false);
 	menus->set_pantalla_fin(true);
