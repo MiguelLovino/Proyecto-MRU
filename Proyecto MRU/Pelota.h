@@ -14,6 +14,7 @@ private:
 	Vector2f velocidad, aceleracion;
 	Clock* reloj_interno;
 	float tiempo_interno = 0.0f;
+	float tiempo_delta = 0;
 	int random = 1;
 	int random_despawn = rand() % 5 + 2;
 	

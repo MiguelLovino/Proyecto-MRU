@@ -44,6 +44,9 @@ private:
 	/***********************************************/
 	Pantalla* pantalla_fondo;
 	Avion* bombardero;
+	Vector2f zona_disparoRECTrecsize;
+	int cant_bombas = 0;
+	int max_bombas = 3;
 	Mira* Mira_cursor;
 	Jugador* soldado;
 	vector<Proyectil*> proyectil_torretaDOS;
@@ -60,8 +63,6 @@ private:
 	Sound sound_vida_menos;
 
 public:
-	
-	
 	Juego(int alto, int ancho, string titulo);
 	~Juego();
 	void Go();

@@ -32,11 +32,10 @@ Juego::Juego(int alto, int ancho, string titulo)
 
 	zona_disparoRECT = new RectangleShape;
 	zona_disparoRECT->setFillColor(Color::Green);
-	Vector2f zona_disparoRECTrecsize;
-	zona_disparoRECTrecsize.x = 400;
-	zona_disparoRECTrecsize.y = 100;
+	
+	zona_disparoRECTrecsize.x = 80;
+	zona_disparoRECTrecsize.y = 5;
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
-
 	limite_ancho_derecha.setSize(Vector2f(1, pantalla_alto));
 	limite_ancho_derecha.setPosition(pantalla_ancho, 0);
 	limite_ancho_izquierda.setSize(Vector2f(1, pantalla_alto));
@@ -128,7 +127,7 @@ void Juego::UpdateGame()
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt);
 
 	//mira
-	//eventos de mouse ***CONTROLAR*******
+	//eventos de mouse ***CONTROLARrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr******* no funciona
 	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
 	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
 
@@ -205,7 +204,7 @@ void Juego::UpdateGame()
 	}
 
 	avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
-	zona_disparoRECT->setPosition(200, 0);
+	
 
 	//disparar proyectiles actualizar
 	if (proyectil_torretaDOS.size() >= 0)
@@ -216,9 +215,10 @@ void Juego::UpdateGame()
 			proyectil_torretaDOS[i]->actualizar();
 		}
 	}
-
+	//zona de disparo
+	zona_disparoRECT->setPosition(pantalla_ancho / 2 - zona_disparoRECT->getGlobalBounds().width / 2, 150);
 	//actualizar avion
-	bombardero->actualizar();
+	bombardero->actualizar(*zona_disparoRECT);
 	
 	//actualizar bombas
 	if (pelotas.size() >= 0)
@@ -248,13 +248,44 @@ void Juego::UpdateGame()
 	//tirar bombas
 	if (tiempo2 > tiempo3)
 	{
-		tiempo3 = tiempo2 + 0.25f;
-		if (bombardero->posision_disparo() == true)
+		tiempo3 = tiempo2 + 0.50f;
+		if (bombardero->posision_disparo(*zona_disparoRECT) == true && cant_bombas < max_bombas)
 		{
 			pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X()));
+			cant_bombas++;
 		}
 	}
-	
+
+	//***************reset cargador de bombas***********************//
+	if (bombardero->get_sprite_avion().getGlobalBounds().intersects(limite_ancho_derecha.getGlobalBounds()) || 
+		bombardero->get_sprite_avion().getGlobalBounds().intersects(limite_ancho_izquierda.getGlobalBounds()) &&
+		!bombardero->get_sprite_avion().getGlobalBounds().intersects(zona_disparoRECT->getGlobalBounds()))
+	{
+			cant_bombas = 0;
+	}
+
+	//************************************actualizar nivel**********************//
+	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+	switch (puntaje)
+	{
+	case 60:
+		max_bombas = 5;
+		zona_disparoRECTrecsize.x = 160;
+		zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+		break;
+	case 100:
+		max_bombas = 6;
+		zona_disparoRECTrecsize.x = 240;
+		zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+		break;
+	case 220:
+		max_bombas = 8;
+		zona_disparoRECTrecsize.x = 320;
+		zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+		break;
+		
+	}
+
 	//*************************GAMEOVER*************************************
 	if (vida <= 0)
 	{

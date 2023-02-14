@@ -95,9 +95,6 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 		jugador_sprite->setPosition(0, jugador_sprite->getPosition().y);
 	}
 
-	
-	//cout << jugador_sprite->getPosition().y << endl;
-	//cout << velocidad.y << endl;
 }
 
 void Jugador::dar_vuelta(Vector2f mira)

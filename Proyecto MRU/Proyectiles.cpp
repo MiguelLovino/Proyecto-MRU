@@ -19,7 +19,6 @@ Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado)
 	sound_proyectil.play();
 	//posicion
 	
-
 }
 
 Proyectil::~Proyectil()

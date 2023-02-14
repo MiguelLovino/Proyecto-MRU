@@ -37,50 +37,31 @@ Avion::Avion()
 }
 
 
-void Avion::actualizar()
+void Avion::actualizar(RectangleShape zona_disparo)
 {
-	//CONTROLARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-	//tiempo1 = reloj->getElapsedTime().asSeconds();
-
-
+	
 	tiempo1 = 3.20f;
-
-	//MRUV
-
-	// v = a * t;
-
-	//velocidad.x = aceleracion.x * tiempo1;
-	//velocidad.y = aceleracion.y * tiempo1;
-
-	//MRU
-
-	//p = pa + v * t
 
 	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad*tiempo1) );
 	de_lado_a_lado();
-	posision_disparo();
+	posision_disparo(zona_disparo);
 	reproducir_sonido_avion();
 }
 
 void Avion::de_lado_a_lado()
 {
-		//cout << sprite_avion->getPosition().x << endl;
 
 	if (sprite_avion->getPosition().x <= 0 - sprite_avion->getGlobalBounds().width)
 	{
-		
 		velocidad.x = 1;
 		sprite_avion->setScale(-1, 1); //dar vuelta la imagen
-	
 		
 	}
 	
 	if (sprite_avion->getPosition().x >= 800 + sprite_avion->getGlobalBounds().width)
 	{
-		
 		velocidad.x = -1; 
 		sprite_avion->setScale(1, 1);
-		
 	}
 
 	
@@ -94,11 +75,12 @@ void Avion::reset_avion()
 	velocidad.x = -1;
 }
 
-bool Avion::posision_disparo()
+bool Avion::posision_disparo(RectangleShape zona_disparo)
 {
-	if (sprite_avion->getPosition().x > 350 && sprite_avion->getPosition().x < 500)
+	// tiene que intersectar con el rectangulo verde
+	if (sprite_avion->getGlobalBounds().intersects(zona_disparo.getGlobalBounds()))
 	{
-		//cout << "esta en posicion de disparo" << endl;
+		cout << "esta en posicion de disparo" << endl;
 		return true;
 	}
 	else
