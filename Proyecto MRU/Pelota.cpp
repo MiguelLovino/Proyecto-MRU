@@ -1,6 +1,6 @@
 #include  "Pelota.h"
 
-Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion)
+Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion, int aceleracion_bomba)
 {
 	
 	reloj_interno = new Clock;
@@ -21,7 +21,7 @@ Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion)
 	velocidad.y = 25;
 	//aceleracion
 	aceleracion.x = 15;
-	aceleracion.y = 15;
+	aceleracion.y = aceleracion_bomba;
 
 	if (velocidad_avion == -1)
 	{
@@ -44,7 +44,7 @@ Pelota::~Pelota()
 	delete pelote_sprite;
 }
 
-void Pelota::actualizar()
+void Pelota::actualizar(RectangleShape limite_D, RectangleShape limite_i)
 {
 	
 	tiempo_delta = reloj_interno->restart().asSeconds();
@@ -57,23 +57,17 @@ void Pelota::actualizar()
 	//formula MRU  
 	pelote_sprite->setPosition(pelote_sprite->getPosition().x + velocidad.x * tiempo_delta, pelote_sprite->getPosition().y + velocidad.y * tiempo_delta );
 
-	//rebote();
+	rebote(limite_D, limite_i);
 	
 }
 
-void Pelota::rebote()
+void Pelota::rebote(RectangleShape limite_D, RectangleShape limite_i)
 {
 
-	if (pelote_sprite->getPosition().y >= 600 - pelote_sprite->getGlobalBounds().height) // SI TOCA EL SUELO
+	if (pelote_sprite->getGlobalBounds().intersects(limite_D.getGlobalBounds())||
+		pelote_sprite->getGlobalBounds().intersects(limite_i.getGlobalBounds())) // SI TOCA EL SUELO
 	{
-		pelote_sprite->setPosition(pelote_sprite->getPosition().x , 600 -pelote_sprite->getGlobalBounds().height); //NO LO TRASPASA
-		velocidad.y = -5 / (tiempo_interno); // LO IMPULSA HACIA ARRIBA(REBOTA)
-		if (tiempo_interno > 2.25f) //FRENO LA BOMBA
-		{
-			velocidad.x = 0;
-		}
-		
-
+		velocidad.x *= -1;
 	}
 
 }

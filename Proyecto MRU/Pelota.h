@@ -19,10 +19,11 @@ private:
 	int random_despawn = rand() % 5 + 2;
 	
 public:
-	Pelota(Vector2f mouse_pos, float velocidad_avion);
+	Pelota(Vector2f mouse_pos, float velocidad_avion, int aceleracion_bomba);
 	~Pelota();
-	void actualizar();
-	void rebote();
+	void set_aceleracion() { aceleracion.y += 500; }
+	void actualizar(RectangleShape limite_D, RectangleShape limite_i);
+	void rebote(RectangleShape limite_D, RectangleShape limite_i);
 	float get_tiempor_interno() { return tiempo_interno; }
 	Sprite get_sprite() { return *pelote_sprite; }
 	float RandomNumber(float Min, float Max)

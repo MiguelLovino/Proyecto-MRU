@@ -12,7 +12,8 @@ Jugador::Jugador()
 	velocidad.y = -7;
 	aceleracion.x = 5;
 	aceleracion.y = 10;
-	
+	recibir_daño_buffer.loadFromFile("recursos/sonido/dolor.ogg");
+	recibir_daño_sound.setBuffer(recibir_daño_buffer);
 }
 
 Jugador::~Jugador()

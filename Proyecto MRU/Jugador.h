@@ -14,6 +14,8 @@ private:
 	Vector2f velocidad;
 	Vector2f aceleracion;
 	Clock Reloj;
+	SoundBuffer recibir_daño_buffer;
+	Sound recibir_daño_sound;
 	float tiempo_delta;
 	bool mira_derecha = true;
 	bool mira_izquierda = true;
@@ -28,4 +30,5 @@ public:
 	void actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI);
 	void dar_vuelta(Vector2f mira);
 	void reset();
+	void reprodicir_dolor() { recibir_daño_sound.play(); }
 };

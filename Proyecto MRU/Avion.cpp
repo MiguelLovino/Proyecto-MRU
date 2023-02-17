@@ -13,7 +13,7 @@ Avion::Avion()
 	sprite_avion = new Sprite;
 	sprite_avion->setTexture(*texture_avion);
 
-	sprite_avion->setPosition(801 , 50);
+	sprite_avion->setPosition(801 , -20);
 	//sprite_avion->setScale(5, 5);
 
 	//vectores de movimiento
@@ -70,7 +70,7 @@ void Avion::de_lado_a_lado()
 void Avion::reset_avion()
 {
 	//vuelvo el avion a su posicion original
-	sprite_avion->setPosition(802, 50);
+	sprite_avion->setPosition(802, -20);
 	sprite_avion->setScale(1, 1);
 	velocidad.x = -1;
 }
@@ -80,7 +80,7 @@ bool Avion::posision_disparo(RectangleShape zona_disparo)
 	// tiene que intersectar con el rectangulo verde
 	if (sprite_avion->getGlobalBounds().intersects(zona_disparo.getGlobalBounds()))
 	{
-		cout << "esta en posicion de disparo" << endl;
+		//cout << "esta en posicion de disparo" << endl;
 		return true;
 	}
 	else
