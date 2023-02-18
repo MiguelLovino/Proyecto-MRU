@@ -36,6 +36,7 @@ private:
 	int aceleracion_bomba = 15;
 	float velocidad_barril = 5;
 	bool Game_over = false;
+	int acercamiento = 0;
 	Event evt;
 	//tiempos
 	Clock* reloj;

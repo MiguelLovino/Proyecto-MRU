@@ -9,6 +9,6 @@ private:
 	Texture* texture_fondoPantalla;
 	Sprite* sprite_fondoPantalla;
 public:
-	Pantalla();
+	Pantalla(int ancho, int alto);
 	Sprite get_sprite_fondoPantalla() { return *sprite_fondoPantalla;}
 };

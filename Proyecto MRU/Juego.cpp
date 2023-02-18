@@ -5,8 +5,8 @@ Juego::Juego(int alto, int ancho, string titulo)
 	
 {
 	
-	pWnd = new RenderWindow(VideoMode(alto,ancho),titulo);
-	pantalla_fondo = new Pantalla;
+	pWnd = new RenderWindow(VideoMode(pantalla_ancho,pantalla_alto),titulo);
+	pantalla_fondo = new Pantalla(pantalla_ancho, pantalla_alto);
 	bombardero = new Avion;
 	Mira_cursor = new Mira;
 	menus = new Menu;
@@ -16,7 +16,8 @@ Juego::Juego(int alto, int ancho, string titulo)
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
 	soldado = new Jugador;
-	//rectangulos de pruebas, borrar al finalizar (CONTROLAR ANTES).
+
+	//rectangulos de pruebas
 	soldadoRECT = new RectangleShape;
 	soldadoRECT->setFillColor(Color::Red);
 	Vector2f soldadorecsize;
@@ -82,8 +83,17 @@ void Juego::DrawGame()
 	
 	if (menus->get_pantalla_juego() == true)
 	{
+		//** DIBUJAR ACA LAS COSAS QUE NECESITO ESCONDER (para testing) **//
 
+	pWnd->draw(*zona_disparoRECT);
+	pWnd->draw(soldado->get_colider());
+	pWnd->draw(*soldadoRECT);
+	pWnd->draw(*avionRECT);
+
+		//************************************************//
 	pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
+	
+
 
 	pWnd->draw(bombardero->get_sprite_avion()); //avion
 	
@@ -117,9 +127,7 @@ void Juego::DrawGame()
 	
 	pWnd->draw(soldado->get_sprite());
 	pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
-	pWnd->draw(*soldadoRECT);
-	pWnd->draw(*zona_disparoRECT);
-	pWnd->draw(*avionRECT);
+	
 	
 	}
 	//MENUS DE PANTALLA DE JUEGO
@@ -196,7 +204,7 @@ void Juego::UpdateGame()
 			soldado->saltar();
 			
 		}
-
+		
 	//reloj
 	tiempo2 = reloj->getElapsedTime().asSeconds();
 
@@ -245,14 +253,18 @@ void Juego::UpdateGame()
 		}
 	}
 
+	//actualizar barriles
 	if (barril_explosivo.size() >= 0)
 	{
 		for (int i = 0; i < barril_explosivo.size(); i++)
 		{
 			barril_explosivo[i]->actualizar();
+			
+			acercamiento = soldado->get_sprite().getPosition().x - barril_explosivo[i]->get_sprite().getPosition().x;
+
+			
 		}
 	}
-	//actualizar barriles
 	
 	//posiciones y estados
 	
@@ -419,7 +431,7 @@ void Juego::ProcessCollisions()
 	{
 		for (int i = 0; i < barril_explosivo.size(); i++)
 		{
-			if (barril_explosivo[i]->get_sprite().getGlobalBounds().intersects(soldado->get_sprite().getGlobalBounds()))
+			if (barril_explosivo[i]->get_sprite().getGlobalBounds().intersects(soldado->get_colider().getGlobalBounds()))
 			{
 				delete barril_explosivo[i];
 				barril_explosivo.erase(barril_explosivo.begin() + i);
@@ -482,7 +494,7 @@ void Juego::Go()
 void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 {
 
-	if (tiempo2 > tiempo4 + 0.50)
+	if (tiempo2 > tiempo4 + 0.50f) //hacer variable para que se pueda modificar cuando recoja un bosster
 	{
 		tiempo4 = tiempo2;
 
@@ -564,6 +576,7 @@ void Juego::prueba_en_consola()
 	//cout << soldado->get_sprite().getPosition().x << endl;
 	//cout << Mira_cursor->get_sprite().getPosition().x << endl;
 	//bombas_en_pantalla();
+	//cout << acercamiento << endl;
 }
 
 void Juego::resetear_juego()
@@ -583,6 +596,11 @@ void Juego::resetear_juego()
 		delete* it;
 	}
 	proyectil_torretaDOS.clear();
+	for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
+	{
+		delete* it;
+	}
+	barril_explosivo.clear();
 	bombardero->reset_avion();
 	soldado->reset();
 	Game_over = false;

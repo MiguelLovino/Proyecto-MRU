@@ -5,15 +5,20 @@ Jugador::Jugador()
 	jugador_txt = new Texture;
 	jugador_txt->loadFromFile("recursos/soldado2.png");
 	jugador_sprite = new Sprite;
+	Cuerpo_colicion = new RectangleShape;
 	jugador_sprite->setTexture(*jugador_txt);
 	jugador_sprite->setPosition(400, 480);
-	jugador_sprite->setScale(2.5,2.5);
+	jugador_sprite->setScale(2.5, 2.5);
+	Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
+	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  - 10 *2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
+	Cuerpo_colicion->setFillColor(Color::Red);
 	velocidad.x = 150;
 	velocidad.y = -7;
 	aceleracion.x = 5;
 	aceleracion.y = 10;
 	recibir_daño_buffer.loadFromFile("recursos/sonido/dolor.ogg");
 	recibir_daño_sound.setBuffer(recibir_daño_buffer);
+	
 }
 
 Jugador::~Jugador()
@@ -41,6 +46,20 @@ void Jugador::mov_izquierda()
 
 void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI)
 {
+	//reposicion del colider
+	if (mira_derecha == true)
+	{
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 - 30, jugador_sprite->getTexture()->getSize().y * 2.5)));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x +13, jugador_sprite->getPosition().y);
+	}
+	if (mira_izquierda == true)
+	{
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 * -1 + 30 , jugador_sprite->getTexture()->getSize().y * 2.5)));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x -13, jugador_sprite->getPosition().y);
+	}
+	//actualizo el colider
+	//Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
+
 	//actualizo el tiempol
 	tiempo_delta = Reloj.restart().asSeconds();
 	//se debe poner los limites para que no caiga fuera del mapa.
@@ -89,7 +108,7 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 
 		}
 	}
-
+	
 
 	if (jugador_sprite->getPosition().x < 0)
 	{

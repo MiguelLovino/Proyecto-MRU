@@ -76,6 +76,7 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 		if (menu_loop == true)
 		{
 		sonido_menu_loop.play();
+		sonido_menu_loop.setLoop(true);
 		menu_loop = false;
 		}
 		texo_salir->setPosition(100, 300);
@@ -153,7 +154,7 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 	{
 		batalla_sound.stop();
 		texo_salir->setPosition(300, 300);
-		puntaje_final->setString(" Tu puntaje final es de: " + to_string(puntaje));
+		puntaje_final->setString(" Tu puntaje final: " + to_string(puntaje));
 
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
@@ -207,7 +208,7 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 				pantalla_menu = true;
 				pantalla_fin = false;
 				sonido_menu.play();
-				cout << "se produce el evento de soltar el boton" << endl;
+				//cout << "se produce el evento de soltar el boton" << endl;
 
 
 				//agrego delay para que que no colicione con la otra opcion rapidamente
@@ -244,6 +245,7 @@ void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
 	if (batalla_loop == true)
 	{
 		batalla_sound.play();
+		batalla_sound.setLoop(true);
 		batalla_loop = false;
 	}
 	texto_juego_vida->setString("vida: " + to_string(vida));
@@ -258,6 +260,6 @@ void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira
 	{
 		pWnd->draw(*texto_juego_vida);
 		pWnd->draw(*texto_juego_puntaje);
-		pWnd->draw(*texto_juego_fase);
+		//pWnd->draw(*texto_juego_fase);
 	}
 }

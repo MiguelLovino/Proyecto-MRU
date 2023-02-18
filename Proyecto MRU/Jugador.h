@@ -19,7 +19,7 @@ private:
 	float tiempo_delta;
 	bool mira_derecha = true;
 	bool mira_izquierda = true;
-
+	RectangleShape* Cuerpo_colicion;
 public:
 	Jugador();
 	~Jugador();
@@ -31,4 +31,5 @@ public:
 	void dar_vuelta(Vector2f mira);
 	void reset();
 	void reprodicir_dolor() { recibir_daño_sound.play(); }
+	RectangleShape get_colider() { return *Cuerpo_colicion; }
 };
