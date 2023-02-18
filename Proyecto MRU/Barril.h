@@ -15,7 +15,7 @@ private:
 	float tiempo_delta = 0;
 	float velocidad_x = 50;
 	float aceleracion_x = 15;
-	int pos_inicial = rand()% 2;
+	int pos_inicial = rand() % 2;
 	Clock Reloj;
 
 public:

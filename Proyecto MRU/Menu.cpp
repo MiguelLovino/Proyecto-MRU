@@ -20,7 +20,7 @@ Menu::Menu()
 	texto_juego_vida->setFillColor(Color::Black);
 	texto_juego_vida->setPosition(10, 5);
 	texto_juego_vida->setCharacterSize(25);
-	
+
 	texto_juego_fase = new Text;
 	texto_juego_fase->setFont(*fuente_txt);
 	texto_juego_fase->setString("fase");
@@ -53,9 +53,9 @@ Menu::Menu()
 	texo_salir->setString("SALIR");
 	texo_salir->setPosition(100, 300);
 	texo_salir->setCharacterSize(50);
-	
+
 	//sonido correspondientes a los menus.
-	
+
 	buffer_menu.loadFromFile("recursos/Sonido/sonido menu.wav");
 	sonido_menu.setBuffer(buffer_menu);
 	sonido_menu.setVolume(35);
@@ -68,16 +68,16 @@ Menu::Menu()
 
 }
 
-void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* pWnd, Event &eventito)
+void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito)
 {
 
 	if (pantalla_menu == true)
 	{
 		if (menu_loop == true)
 		{
-		sonido_menu_loop.play();
-		sonido_menu_loop.setLoop(true);
-		menu_loop = false;
+			sonido_menu_loop.play();
+			sonido_menu_loop.setLoop(true);
+			menu_loop = false;
 		}
 		texo_salir->setPosition(100, 300);
 		if (eventito.type == eventito.MouseButtonPressed && eventito.mouseButton.button == Mouse::Left)
@@ -89,7 +89,7 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 				batalla_loop = true;
 				pantalla_menu = false;
 				sleep(milliseconds(250));
-				
+
 			}
 			if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))
 			{
@@ -137,7 +137,7 @@ void Menu::inicio_actualizar(Mira *mira,Vector2f mouserposition, RenderWindow* p
 void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor)
 {
 	//PANTALLA DE INICIO
-	
+
 	if (pantalla_menu == true)
 	{
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
@@ -147,9 +147,9 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 	}
 }
 
-void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event &eventito , int puntaje)
+void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito, int puntaje)
 {
-	
+
 	if (pantalla_fin == true)
 	{
 		batalla_sound.stop();
@@ -158,7 +158,7 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
-			
+
 			if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))
 			{
 				pWnd->close();
@@ -173,11 +173,11 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 			//ejecutar sonido
 			if (rep_reiniciar == true)
 			{
-			sonido_menu.play();
-			rep_reiniciar = false;
-			menu_loop = true;
+				sonido_menu.play();
+				rep_reiniciar = false;
+				menu_loop = true;
 			}
-			
+
 		}
 		else
 		{
@@ -216,10 +216,10 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 
 			}
 		}
-		
-		
+
+
 	}
-	
+
 
 }
 
@@ -233,7 +233,7 @@ void Menu::dibujar_fin(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_
 		pWnd->draw(Mira_cursor->get_sprite());
 		pWnd->draw(*puntaje_final);
 	}
-	
+
 
 
 }
@@ -251,7 +251,7 @@ void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
 	texto_juego_vida->setString("vida: " + to_string(vida));
 	texto_juego_puntaje->setString("puntaje " + to_string(puntaje));
 
-	
+
 }
 
 void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor)

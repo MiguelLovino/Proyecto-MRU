@@ -17,7 +17,7 @@ private:
 	float tiempo_delta = 0;
 	int random = 1;
 	int random_despawn = rand() % 5 + 2;
-	
+
 public:
 	Pelota(Vector2f mouse_pos, float velocidad_avion, int aceleracion_bomba);
 	~Pelota();
@@ -31,5 +31,5 @@ public:
 		return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 	}
 	int get_random_despawn() { return random_despawn; }
-	
+
 };

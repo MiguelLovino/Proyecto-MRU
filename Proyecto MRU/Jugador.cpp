@@ -10,7 +10,7 @@ Jugador::Jugador()
 	jugador_sprite->setPosition(400, 480);
 	jugador_sprite->setScale(2.5, 2.5);
 	Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
-	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  - 10 *2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
+	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x - 10 * 2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
 	Cuerpo_colicion->setFillColor(Color::Red);
 	velocidad.x = 150;
 	velocidad.y = -7;
@@ -18,7 +18,7 @@ Jugador::Jugador()
 	aceleracion.y = 10;
 	recibir_daño_buffer.loadFromFile("recursos/sonido/dolor.ogg");
 	recibir_daño_sound.setBuffer(recibir_daño_buffer);
-	
+
 }
 
 Jugador::~Jugador()
@@ -31,12 +31,12 @@ void Jugador::saltar()
 {
 
 	jugador_sprite->move(0, velocidad.y * tiempo_delta);
-	
+
 }
 
 void Jugador::mov_derecha()
 {
-	jugador_sprite->move(velocidad.x * tiempo_delta,0);
+	jugador_sprite->move(velocidad.x * tiempo_delta, 0);
 }
 
 void Jugador::mov_izquierda()
@@ -50,12 +50,12 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 	if (mira_derecha == true)
 	{
 		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 - 30, jugador_sprite->getTexture()->getSize().y * 2.5)));
-		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x +13, jugador_sprite->getPosition().y);
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x + 13, jugador_sprite->getPosition().y);
 	}
 	if (mira_izquierda == true)
 	{
-		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 * -1 + 30 , jugador_sprite->getTexture()->getSize().y * 2.5)));
-		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x -13, jugador_sprite->getPosition().y);
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 * -1 + 30, jugador_sprite->getTexture()->getSize().y * 2.5)));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x - 13, jugador_sprite->getPosition().y);
 	}
 	//actualizo el colider
 	//Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
@@ -67,12 +67,12 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 	if (jugador_sprite->getPosition().y > 480)
 	{
 		jugador_sprite->setPosition(jugador_sprite->getPosition().x, 480);
-		velocidad.y = -7; 
+		velocidad.y = -7;
 	}
 	if (jugador_sprite->getPosition().y < 480)
 	{
-	velocidad.y += aceleracion.y * tiempo_delta; // controlar en futuro (GRAVEDAD DEL PERSONAJE/ESENARIO)
-	jugador_sprite->move(0, velocidad.y);
+		velocidad.y += aceleracion.y * tiempo_delta; // controlar en futuro (GRAVEDAD DEL PERSONAJE/ESENARIO)
+		jugador_sprite->move(0, velocidad.y);
 
 	}
 	dar_vuelta(mira);
@@ -82,13 +82,13 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 		if (mira_derecha == true)
 		{
 
-		jugador_sprite->setPosition(limiteD.getPosition().x - jugador_sprite->getGlobalBounds().width, jugador_sprite->getPosition().y);
+			jugador_sprite->setPosition(limiteD.getPosition().x - jugador_sprite->getGlobalBounds().width, jugador_sprite->getPosition().y);
 
 		}
 		if (mira_izquierda == true)
 		{
 
-			jugador_sprite->setPosition(limiteD.getPosition().x , jugador_sprite->getPosition().y);
+			jugador_sprite->setPosition(limiteD.getPosition().x, jugador_sprite->getPosition().y);
 
 		}
 	}
@@ -108,7 +108,7 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 
 		}
 	}
-	
+
 
 	if (jugador_sprite->getPosition().x < 0)
 	{
@@ -123,7 +123,7 @@ void Jugador::dar_vuelta(Vector2f mira)
 	{
 
 		jugador_sprite->setScale(2.5, 2.5);
-		
+
 		if (mira_izquierda == true)
 		{
 			jugador_sprite->setPosition(jugador_sprite->getPosition().x - jugador_sprite->getGlobalBounds().width, jugador_sprite->getPosition().y);
@@ -131,20 +131,20 @@ void Jugador::dar_vuelta(Vector2f mira)
 			mira_izquierda = false;
 			mira_derecha = true;
 		}
-		
+
 	}
 	else
 	{
 
-		jugador_sprite->setScale(2.5*-1, 2.5);
-		
+		jugador_sprite->setScale(2.5 * -1, 2.5);
+
 		if (mira_derecha == true)
 		{
-		jugador_sprite->setPosition(jugador_sprite->getPosition().x + jugador_sprite->getGlobalBounds().width, jugador_sprite->getPosition().y);
-		mira_derecha = false;
-		mira_izquierda = true;
+			jugador_sprite->setPosition(jugador_sprite->getPosition().x + jugador_sprite->getGlobalBounds().width, jugador_sprite->getPosition().y);
+			mira_derecha = false;
+			mira_izquierda = true;
 		}
-		
+
 	}
 }
 

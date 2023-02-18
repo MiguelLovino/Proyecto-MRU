@@ -18,7 +18,7 @@ private:
 	bool rep_avion = true;
 	bool rep_avion2 = true;
 	RectangleShape avion_en_pantalla;
-	
+
 public:
 	Avion();
 	Sprite get_sprite_avion() { return *sprite_avion; }

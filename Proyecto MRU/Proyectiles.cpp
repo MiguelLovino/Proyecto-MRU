@@ -30,7 +30,6 @@ Proyectil::~Proyectil()
 
 void Proyectil::actualizar()
 {	
-	// teorema de pitagoras.
 	longitud = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction.x = direction.x / longitud;
 	direction.y = direction.y / longitud;

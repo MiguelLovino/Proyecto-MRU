@@ -2,10 +2,10 @@
 
 Avion::Avion()
 {
-	
+
 	//reloj
 	reloj = new Clock;
-	
+
 	//texturas y sprite;
 	texture_avion = new Texture;
 	texture_avion->loadFromFile("recursos/avion.png");
@@ -13,7 +13,7 @@ Avion::Avion()
 	sprite_avion = new Sprite;
 	sprite_avion->setTexture(*texture_avion);
 
-	sprite_avion->setPosition(801 , -20);
+	sprite_avion->setPosition(801, -20);
 	//sprite_avion->setScale(5, 5);
 
 	//vectores de movimiento
@@ -25,7 +25,7 @@ Avion::Avion()
 	aceleracion.y = 0;
 
 	//avion en pantalla
-	avion_en_pantalla.setSize(Vector2f(800,300));
+	avion_en_pantalla.setSize(Vector2f(800, 300));
 	avion_en_pantalla.setPosition(0, 0);
 
 
@@ -39,10 +39,10 @@ Avion::Avion()
 
 void Avion::actualizar(RectangleShape zona_disparo)
 {
-	
+
 	tiempo1 = 3.20f;
 
-	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad*tiempo1) );
+	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad * tiempo1));
 	de_lado_a_lado();
 	posision_disparo(zona_disparo);
 	reproducir_sonido_avion();
@@ -55,16 +55,16 @@ void Avion::de_lado_a_lado()
 	{
 		velocidad.x = 1;
 		sprite_avion->setScale(-1, 1); //dar vuelta la imagen
-		
+
 	}
-	
+
 	if (sprite_avion->getPosition().x >= 800 + sprite_avion->getGlobalBounds().width)
 	{
-		velocidad.x = -1; 
+		velocidad.x = -1;
 		sprite_avion->setScale(1, 1);
 	}
 
-	
+
 }
 
 void Avion::reset_avion()
@@ -98,10 +98,10 @@ void Avion::reproducir_sonido_avion()
 	{
 		if (rep_avion == true)
 		{
-			
-		sound_avion.play();
-		sound_avion.setPlayingOffset(seconds(15));
-		rep_avion = false;
+
+			sound_avion.play();
+			sound_avion.setPlayingOffset(seconds(15));
+			rep_avion = false;
 		}
 
 	}
