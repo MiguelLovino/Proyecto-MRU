@@ -19,7 +19,7 @@ private:
 	Clock Reloj;
 
 public:
-	Barril(float vel);
+	Barril(float vel, int ancho, int alto);
 	~Barril();
 	CircleShape get_sprite() { return *barril_explosivo; }
 	void actualizar();

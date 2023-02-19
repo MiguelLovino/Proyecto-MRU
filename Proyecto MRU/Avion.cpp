@@ -9,14 +9,9 @@ Avion::Avion()
 	//texturas y sprite;
 	texture_avion = new Texture;
 	texture_avion->loadFromFile("recursos/avion.png");
-
 	sprite_avion = new Sprite;
 	sprite_avion->setTexture(*texture_avion);
-
 	sprite_avion->setPosition(801, -20);
-	//sprite_avion->setScale(5, 5);
-
-	//vectores de movimiento
 
 	velocidad.x = -1;
 	velocidad.y = 0;
@@ -27,8 +22,6 @@ Avion::Avion()
 	//avion en pantalla
 	avion_en_pantalla.setSize(Vector2f(800, 300));
 	avion_en_pantalla.setPosition(0, 0);
-
-
 
 	//sonidos
 	buffer_avion.loadFromFile("recursos/Sonido/avion2.wav");
@@ -41,11 +34,11 @@ void Avion::actualizar(RectangleShape zona_disparo)
 {
 
 	tiempo1 = 3.20f;
-
 	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad * tiempo1));
 	de_lado_a_lado();
 	posision_disparo(zona_disparo);
 	reproducir_sonido_avion();
+
 }
 
 void Avion::de_lado_a_lado()
@@ -80,13 +73,13 @@ bool Avion::posision_disparo(RectangleShape zona_disparo)
 	// tiene que intersectar con el rectangulo verde
 	if (sprite_avion->getGlobalBounds().intersects(zona_disparo.getGlobalBounds()))
 	{
-		//cout << "esta en posicion de disparo" << endl;
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+	
 
 }
 

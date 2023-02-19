@@ -1,13 +1,13 @@
 #include "Jugador.h"
 
-Jugador::Jugador()
+Jugador::Jugador(int ancho, int alto)
 {
 	jugador_txt = new Texture;
 	jugador_txt->loadFromFile("recursos/soldado2.png");
 	jugador_sprite = new Sprite;
 	Cuerpo_colicion = new RectangleShape;
 	jugador_sprite->setTexture(*jugador_txt);
-	jugador_sprite->setPosition(400, 480);
+	jugador_sprite->setPosition(ancho / 2, alto - 40);
 	jugador_sprite->setScale(2.5, 2.5);
 	Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
 	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x - 10 * 2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
@@ -44,7 +44,7 @@ void Jugador::mov_izquierda()
 	jugador_sprite->move(velocidad.x * -1 * tiempo_delta, 0);
 }
 
-void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI)
+void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI, int ancho, int alto)
 {
 	//reposicion del colider
 	if (mira_derecha == true)
@@ -64,12 +64,12 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 	tiempo_delta = Reloj.restart().asSeconds();
 	//se debe poner los limites para que no caiga fuera del mapa.
 	//actualizar gravedad
-	if (jugador_sprite->getPosition().y > 480)
+	if (jugador_sprite->getPosition().y > alto - jugador_sprite->getGlobalBounds().height)
 	{
-		jugador_sprite->setPosition(jugador_sprite->getPosition().x, 480);
+		jugador_sprite->setPosition(jugador_sprite->getPosition().x, alto - jugador_sprite->getGlobalBounds().height);
 		velocidad.y = -7;
 	}
-	if (jugador_sprite->getPosition().y < 480)
+	if (jugador_sprite->getPosition().y < alto - jugador_sprite->getGlobalBounds().height)
 	{
 		velocidad.y += aceleracion.y * tiempo_delta; // controlar en futuro (GRAVEDAD DEL PERSONAJE/ESENARIO)
 		jugador_sprite->move(0, velocidad.y);
@@ -148,7 +148,7 @@ void Jugador::dar_vuelta(Vector2f mira)
 	}
 }
 
-void Jugador::reset()
+void Jugador::reset(int ancho)
 {
-	jugador_sprite->setPosition(400, jugador_sprite->getPosition().y);
+	jugador_sprite->setPosition(ancho / 2, jugador_sprite->getPosition().y);
 }

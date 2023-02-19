@@ -21,15 +21,15 @@ private:
 	bool mira_izquierda = true;
 	RectangleShape* Cuerpo_colicion;
 public:
-	Jugador();
+	Jugador(int ancho, int alto);
 	~Jugador();
 	Sprite get_sprite() { return *jugador_sprite; }
 	void saltar();
 	void mov_derecha();
 	void mov_izquierda();
-	void actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI);
+	void actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape limiteI, int ancho, int alto);
 	void dar_vuelta(Vector2f mira);
-	void reset();
+	void reset(int ancho);
 	void reprodicir_dolor() { recibir_daño_sound.play(); }
 	RectangleShape get_colider() { return *Cuerpo_colicion; }
 };

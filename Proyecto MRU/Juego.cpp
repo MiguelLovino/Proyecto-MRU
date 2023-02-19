@@ -6,6 +6,7 @@ Juego::Juego(int alto, int ancho, string titulo)
 {
 
 	pWnd = new RenderWindow(VideoMode(pantalla_ancho, pantalla_alto), titulo);
+	
 	pantalla_fondo = new Pantalla(pantalla_ancho, pantalla_alto);
 	bombardero = new Avion;
 	Mira_cursor = new Mira;
@@ -15,7 +16,8 @@ Juego::Juego(int alto, int ancho, string titulo)
 
 	pWnd->setFramerateLimit(60);
 	pWnd->setMouseCursorVisible(false);
-	soldado = new Jugador;
+	pWnd->setMouseCursorGrabbed(true);
+	soldado = new Jugador(pantalla_ancho, pantalla_alto);
 
 	//rectangulos de pruebas
 	soldadoRECT = new RectangleShape;
@@ -137,24 +139,10 @@ void Juego::DrawGame()
 
 void Juego::UpdateGame()
 {
-	//MENU
-	//pantalla menu
-	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd, evt);
-
-	//pantalla del menu de juego
-	menus->menu_juego_actualizar(vida, puntaje, fase);
-
-	//pantalla  de fin
-	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt, puntaje_fina);
-
-	//mira
 	//eventos de mouse ***CONTROLARrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr******* no funciona
 	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
 	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
-
-	//ventana de disparo de bombas
-	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
-
+	
 	if (mouserposition.x < 0)
 	{
 		mouserposition.x = 0;
@@ -175,8 +163,26 @@ void Juego::UpdateGame()
 		mouserposition.y = pantalla_alto;
 
 	}
-
+	
 	Mira_cursor->set_pos_mira(mouserposition);
+
+	//MENU
+	//pantalla menu
+	menus->inicio_actualizar(Mira_cursor, mouserposition, pWnd, evt);
+
+	//pantalla del menu de juego
+	menus->menu_juego_actualizar(vida, puntaje, fase);
+
+	//pantalla  de fin
+	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt, puntaje_fina);
+
+	//mira
+	
+
+	//ventana de disparo de bombas
+	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
+
+	
 
 	//*************************GAMEPLAY SCREEN*************************************
 	if (menus->get_pantalla_juego() == true)
@@ -214,7 +220,7 @@ void Juego::UpdateGame()
 		proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
 		//personaje
-		soldado->actualizar(Mira_cursor->get_sprite().getPosition(), limite_ancho_derecha, limite_ancho_izquierda);
+		soldado->actualizar(Mira_cursor->get_sprite().getPosition(), limite_ancho_derecha, limite_ancho_izquierda, pantalla_ancho, pantalla_alto);
 
 		//actualizar pos a donde mira.
 		if (Mira_cursor->get_sprite().getPosition().x > soldado->get_sprite().getPosition().x)
@@ -297,7 +303,7 @@ void Juego::UpdateGame()
 		{
 			tiempo_barril_explosivo = tiempo2 + 1.25f;
 			if (bombardero->posision_disparo(*zona_disparoRECT) == true && cant_barriles < max_barriles)
-				barril_explosivo.push_back(new Barril(velocidad_barril));
+				barril_explosivo.push_back(new Barril(velocidad_barril,pantalla_ancho,pantalla_alto));
 			cant_barriles++;
 		}
 
@@ -445,13 +451,13 @@ void Juego::ProcessCollisions()
 			}
 		}
 
-
+		//colicion de bombas con el suelo (SE PIERDEN VIDAS)
 		if (pelotas.size() >= 0)
 		{
 			for (int i = 0; i < pelotas.size(); i++)
 
 			{
-				if (pelotas[i]->get_sprite().getPosition().y > 575) //CHECKEAR LA DISTANCIA
+				if (pelotas[i]->get_sprite().getPosition().y > pantalla_alto - pelotas[i]->get_sprite().getGlobalBounds().height) //CHECKEAR LA DISTANCIA
 				{
 					sound_explo.play();
 					delete pelotas[i];
@@ -604,7 +610,7 @@ void Juego::resetear_juego()
 		}
 		barril_explosivo.clear();
 		bombardero->reset_avion();
-		soldado->reset();
+		soldado->reset(pantalla_ancho);
 		Game_over = false;
 		menus->set_pantalla_juego(false);
 		menus->set_pantalla_fin(true);

@@ -25,11 +25,11 @@ private:
 	void ProcessCollisions();
 	vector <Pelota*> pelotas;
 	vector <Barril*> barril_explosivo;
-	int pantalla_ancho = 800;
-	int pantalla_alto = 600;
+	int pantalla_ancho = 1270;
+	int pantalla_alto = 720;
 	RectangleShape limite_ancho_izquierda;
 	RectangleShape limite_ancho_derecha;
-	int vida = 5;
+	int vida = 50000;
 	int fase = 1;
 	int puntaje = 0;
 	int puntaje_fina = 0;
