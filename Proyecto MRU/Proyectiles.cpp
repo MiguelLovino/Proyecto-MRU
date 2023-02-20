@@ -1,6 +1,6 @@
 #include "Proyectiles.h"
 
-Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado)
+Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira)
 {
 	texture_proyectil = new Texture;
 	texture_proyectil->loadFromFile("recursos/proyectil2.png");
@@ -9,7 +9,7 @@ Proyectil::Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado)
 	sprite_proyectil->setTexture(*texture_proyectil);
 	sprite_proyectil->setPosition(pos_bocacha);
 	sprite_proyectil->setScale(0.5, 0.5);
-	direction = (mira - soldado->get_sprite().getPosition());
+	direction = ( mira - pos_bocacha);
 	reloj = new Clock;
 	//Sonido
 	//el sonido se ejecuta cuando el proyectil sale disparado.

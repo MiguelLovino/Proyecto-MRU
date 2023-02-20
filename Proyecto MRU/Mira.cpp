@@ -8,6 +8,6 @@ Mira::Mira()
 	sprite_mira = new Sprite;
 	sprite_mira->setTexture(*textura_mira);
 
-	sprite_mira->setOrigin(25, 25);
-	sprite_mira->setScale(0.75f, 0.75f);
+	sprite_mira->setOrigin(textura_mira->getSize().x / 2, textura_mira->getSize().y / 2);
+	//sprite_mira->setScale(0.75f, 0.75f);
 }

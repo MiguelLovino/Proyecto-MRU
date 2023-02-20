@@ -505,7 +505,7 @@ void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 	if (tiempo2 > tiempo4 + 0.50f) //hacer variable para que se pueda modificar cuando recoja un bosster
 	{
 		tiempo4 = tiempo2;
-
+		//mouserposition
 		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition, soldado));
 
 	}

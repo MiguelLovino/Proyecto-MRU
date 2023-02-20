@@ -26,7 +26,7 @@ private:
 	Sound sound_proyectil;
 
 public:
-	Proyectil(Vector2f pos_bocacha, Vector2f mira, Jugador* soldado);
+	Proyectil(Vector2f pos_bocacha, Vector2f mira);
 	~Proyectil();
 	Sprite get_sprite() { return *sprite_proyectil; }
 	void actualizar();
