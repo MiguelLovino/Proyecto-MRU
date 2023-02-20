@@ -29,7 +29,7 @@ private:
 	int pantalla_alto = 720;
 	RectangleShape limite_ancho_izquierda;
 	RectangleShape limite_ancho_derecha;
-	int vida = 50000;
+	int vida = 5;
 	int fase = 1;
 	int puntaje = 0;
 	int puntaje_fina = 0;

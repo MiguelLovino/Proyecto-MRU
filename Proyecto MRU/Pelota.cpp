@@ -11,8 +11,6 @@ Pelota::Pelota(Vector2f mouse_pos, float velocidad_avion, int aceleracion_bomba)
 	pelote_sprite->setTexture(*pelota_texture);
 	pelote_sprite->setScale(0.3f, 0.3f);
 
-	//pelote_sprite->setColor(Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1));
-
 	//pos inicial
 	pelote_sprite->setPosition(mouse_pos);
 

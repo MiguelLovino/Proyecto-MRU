@@ -8,7 +8,7 @@ Jugador::Jugador(int ancho, int alto)
 	Cuerpo_colicion = new RectangleShape;
 	jugador_sprite->setTexture(*jugador_txt);
 	jugador_sprite->setPosition(ancho / 2, alto - 40);
-	jugador_sprite->setScale(2.5, 2.5);
+	//jugador_sprite->setScale(2.5, 2.5);
 	Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
 	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x - 10 * 2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
 	Cuerpo_colicion->setFillColor(Color::Red);
@@ -49,13 +49,13 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 	//reposicion del colider
 	if (mira_derecha == true)
 	{
-		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 - 30, jugador_sprite->getTexture()->getSize().y * 2.5)));
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  - 30, jugador_sprite->getTexture()->getSize().y )));
 		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x + 13, jugador_sprite->getPosition().y);
 	}
 	if (mira_izquierda == true)
 	{
-		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x * 2.5 * -1 + 30, jugador_sprite->getTexture()->getSize().y * 2.5)));
-		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x - 13, jugador_sprite->getPosition().y);
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  + 30 * -1, jugador_sprite->getTexture()->getSize().y )));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x - 30, jugador_sprite->getPosition().y);
 	}
 	//actualizo el colider
 	//Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
@@ -122,7 +122,7 @@ void Jugador::dar_vuelta(Vector2f mira)
 	if (mira.x > jugador_sprite->getPosition().x)
 	{
 
-		jugador_sprite->setScale(2.5, 2.5);
+		jugador_sprite->setScale(1, 1);
 
 		if (mira_izquierda == true)
 		{
@@ -136,7 +136,7 @@ void Jugador::dar_vuelta(Vector2f mira)
 	else
 	{
 
-		jugador_sprite->setScale(2.5 * -1, 2.5);
+		jugador_sprite->setScale(1 * -1, 1);
 
 		if (mira_derecha == true)
 		{

@@ -87,9 +87,8 @@ void Juego::DrawGame()
 	{
 		//** DIBUJAR ACA LAS COSAS QUE NECESITO ESCONDER (para testing) **//
 
-		pWnd->draw(*zona_disparoRECT);
-		pWnd->draw(soldado->get_colider());
-		pWnd->draw(*soldadoRECT);
+		
+		
 		pWnd->draw(*avionRECT);
 
 		//************************************************//
@@ -129,7 +128,9 @@ void Juego::DrawGame()
 
 		pWnd->draw(soldado->get_sprite());
 		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
-
+		pWnd->draw(*zona_disparoRECT);
+		pWnd->draw(*soldadoRECT);
+		pWnd->draw(soldado->get_colider());
 
 	}
 	//MENUS DE PANTALLA DE JUEGO
@@ -230,7 +231,7 @@ void Juego::UpdateGame()
 		}
 		else
 		{
-			soldadoRECT->setPosition(soldado->get_sprite().getPosition().x + 23 * -1, soldado->get_sprite().getPosition().y);
+			soldadoRECT->setPosition(soldado->get_sprite().getPosition().x + 30 * -1, soldado->get_sprite().getPosition().y);
 		}
 
 		avionRECT->setPosition(bombardero->get_sprite_avion().getPosition().x, bombardero->get_sprite_avion().getPosition().y);
@@ -506,7 +507,7 @@ void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
 	{
 		tiempo4 = tiempo2;
 		//mouserposition
-		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition, soldado));
+		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition));
 
 	}
 }
@@ -585,6 +586,7 @@ void Juego::prueba_en_consola()
 	//cout << Mira_cursor->get_sprite().getPosition().x << endl;
 	//bombas_en_pantalla();
 	//cout << acercamiento << endl;
+	//cout << soldado->get_sprite().getGlobalBounds().width << endl;
 }
 
 void Juego::resetear_juego()
