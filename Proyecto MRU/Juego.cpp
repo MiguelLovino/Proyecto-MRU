@@ -4,11 +4,11 @@
 Juego::Juego(int alto, int ancho, string titulo)
 
 {
-
+	
 	pWnd = new RenderWindow(VideoMode(pantalla_ancho, pantalla_alto), titulo);
 	
 	pantalla_fondo = new Pantalla(pantalla_ancho, pantalla_alto);
-	bombardero = new Avion;
+	bombardero = new Avion(pantalla_ancho);
 	Mira_cursor = new Mira;
 	menus = new Menu;
 	reloj = new Clock;
@@ -40,9 +40,9 @@ Juego::Juego(int alto, int ancho, string titulo)
 	zona_disparoRECTrecsize.x = 80;
 	zona_disparoRECTrecsize.y = 5;
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
-	limite_ancho_derecha.setSize(Vector2f(1, pantalla_alto));
-	limite_ancho_derecha.setPosition(pantalla_ancho, 0);
-	limite_ancho_izquierda.setSize(Vector2f(1, pantalla_alto));
+	limite_ancho_derecha.setSize(Vector2f(1, (float)pantalla_alto));
+	limite_ancho_derecha.setPosition((float)pantalla_ancho, 0);
+	limite_ancho_izquierda.setSize(Vector2f(1, (float)pantalla_alto));
 	//sonidos
 	buffer_explo.loadFromFile("recursos/Sonido/explota bomba2.ogg");
 	sound_explo.setBuffer(buffer_explo);
@@ -87,50 +87,25 @@ void Juego::DrawGame()
 	{
 		//** DIBUJAR ACA LAS COSAS QUE NECESITO ESCONDER (para testing) **//
 
-		
-		
-		pWnd->draw(*avionRECT);
-
-		//************************************************//
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
-
-
-
-		pWnd->draw(bombardero->get_sprite_avion()); //avion
-
-		// dibujo los barriles
-
-		if (barril_explosivo.size() > 0)
-		{
-			for (int i = 0; i < barril_explosivo.size(); i++)
-			{
-				pWnd->draw(barril_explosivo[i]->get_sprite());
-			}
-		}
-		if (pelotas.size() > 0) //dibujo las bombas
-		{
-			for (int i = 0; i < pelotas.size(); i++)
-			{
-				pWnd->draw(pelotas[i]->get_sprite());
-			}
-		}
-		if (proyectil_torretaDOS.size() > 0) //dibujo los proyectiles
-		{
-			for (int i = 0; i < proyectil_torretaDOS.size(); i++)
-			{
-				pWnd->draw(proyectil_torretaDOS[i]->get_sprite());
-			}
-		}
-
-
-		//dibujo el barril
-
-
-		pWnd->draw(soldado->get_sprite());
-		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
+	
 		pWnd->draw(*zona_disparoRECT);
 		pWnd->draw(*soldadoRECT);
 		pWnd->draw(soldado->get_colider());
+		pWnd->draw(*avionRECT);
+
+		//************************************************//
+
+		pWnd->draw(bombardero->get_sprite_avion()); //avion
+		//dibujo barriles
+		dibujar_vectores(barril_explosivo);
+		//dibujo bombas
+		dibujar_vectores(pelotas);
+		//dibujo proyectiles
+		dibujar_vectores(proyectiles_en_juego);
+		pWnd->draw(soldado->get_sprite());
+		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
+		
 
 	}
 	//MENUS DE PANTALLA DE JUEGO
@@ -140,30 +115,8 @@ void Juego::DrawGame()
 
 void Juego::UpdateGame()
 {
-	//eventos de mouse ***CONTROLARrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr******* no funciona
 	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
 	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
-	
-	if (mouserposition.x < 0)
-	{
-		mouserposition.x = 0;
-
-	}
-	if (mouserposition.x > pantalla_ancho)
-	{
-		mouserposition.x = pantalla_ancho;
-
-	}
-	if (mouserposition.y < 0)
-	{
-		mouserposition.y = 0;
-
-	}
-	if (mouserposition.y > pantalla_alto)
-	{
-		mouserposition.y = pantalla_alto;
-
-	}
 	
 	Mira_cursor->set_pos_mira(mouserposition);
 
@@ -177,22 +130,21 @@ void Juego::UpdateGame()
 	//pantalla  de fin
 	menus->fin_actualizar(Mira_cursor, mouserposition, pWnd, evt, puntaje_fina);
 
-	//mira
-	
-
 	//ventana de disparo de bombas
 	zona_disparoRECT->setSize(zona_disparoRECTrecsize);
 
-	
-
 	//*************************GAMEPLAY SCREEN*************************************
+	// 
+	//reloj
+	tiempo2 = reloj->getElapsedTime().asSeconds();
+
 	if (menus->get_pantalla_juego() == true)
 	{
 		//EVENTOS
 		//DISPARAR
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			disparar_proyectiles(proyectil_pos_de_disparo, 0); //crea los proyectilesproyectiles
+			soldado->disparar_proyectiles(proyectil_pos_de_disparo,mouserposition,tiempo2,tiempo4,proyectiles_en_juego); //crea los proyectilesproyectiles
 
 		}
 		//MOVIMIENTOS
@@ -212,8 +164,7 @@ void Juego::UpdateGame()
 
 		}
 
-		//reloj
-		tiempo2 = reloj->getElapsedTime().asSeconds();
+		
 
 		//disparar proyectiles (los crea)
 
@@ -238,12 +189,12 @@ void Juego::UpdateGame()
 
 
 		//disparar proyectiles actualizar
-		if (proyectil_torretaDOS.size() >= 0)
+		if (proyectiles_en_juego.size() >= 0)
 		{
 
-			for (int i = 0; i < proyectil_torretaDOS.size(); i++)
+			for (int i = 0; i < proyectiles_en_juego.size(); i++)
 			{
-				proyectil_torretaDOS[i]->actualizar();
+				proyectiles_en_juego[i]->actualizar();
 			}
 		}
 		//zona de disparo
@@ -267,7 +218,7 @@ void Juego::UpdateGame()
 			{
 				barril_explosivo[i]->actualizar();
 
-				acercamiento = soldado->get_sprite().getPosition().x - barril_explosivo[i]->get_sprite().getPosition().x;
+				acercamiento = (int)(soldado->get_sprite().getPosition().x - barril_explosivo[i]->get_sprite().getPosition().x);
 
 
 			}
@@ -295,7 +246,7 @@ void Juego::UpdateGame()
 			tiempo3 = tiempo2 + 0.50f;
 			if (bombardero->posision_disparo(*zona_disparoRECT) == true && cant_bombas < max_bombas)
 			{
-				pelotas.push_back(new Pelota(bombaposition, bombardero->get_velocidad_avion_X(), aceleracion_bomba));
+				pelotas.push_back(new Bomba(bombaposition, bombardero->get_velocidad_avion_X(), aceleracion_bomba));
 				cant_bombas++;
 			}
 		}
@@ -348,19 +299,19 @@ void Juego::ProcessCollisions()
 	{
 		//coliciones
 		//colicion de bombas con proyectiles.
-		if (pelotas.size() >= 0 && proyectil_torretaDOS.size() >= 0)
+		if (pelotas.size() >= 0 && proyectiles_en_juego.size() >= 0)
 		{
 
 			for (int i = 0; i < pelotas.size(); i++)
 			{
-				for (int j = 0; j < proyectil_torretaDOS.size(); j++)
+				for (int j = 0; j < proyectiles_en_juego.size(); j++)
 				{
-					if (proyectil_torretaDOS[j]->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
+					if (proyectiles_en_juego[j]->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
 					{
 						//cout << "se produjo colicion" << endl;
 						puntaje += 10;
-						delete proyectil_torretaDOS[j];
-						proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
+						delete proyectiles_en_juego[j];
+						proyectiles_en_juego.erase(proyectiles_en_juego.begin() + j);
 						sound_explo.play();
 						delete pelotas[i];
 						pelotas.erase(pelotas.begin() + i);
@@ -372,19 +323,19 @@ void Juego::ProcessCollisions()
 
 		//colicion barriles con proyectil
 
-		if (barril_explosivo.size() >= 0 && proyectil_torretaDOS.size() >= 0)
+		if (barril_explosivo.size() >= 0 && proyectiles_en_juego.size() >= 0)
 		{
 
 			for (int i = 0; i < barril_explosivo.size(); i++)
 			{
-				for (int j = 0; j < proyectil_torretaDOS.size(); j++)
+				for (int j = 0; j < proyectiles_en_juego.size(); j++)
 				{
-					if (proyectil_torretaDOS[j]->get_sprite().getGlobalBounds().intersects(barril_explosivo[i]->get_sprite().getGlobalBounds()))
+					if (proyectiles_en_juego[j]->get_sprite().getGlobalBounds().intersects(barril_explosivo[i]->get_sprite().getGlobalBounds()))
 					{
 						//cout << "se produjo colicion" << endl;
 						puntaje += 10;
-						delete proyectil_torretaDOS[j];
-						proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + j);
+						delete proyectiles_en_juego[j];
+						proyectiles_en_juego.erase(proyectiles_en_juego.begin() + j);
 						sound_explo.play();
 						delete barril_explosivo[i];
 						barril_explosivo.erase(barril_explosivo.begin() + i);
@@ -395,22 +346,21 @@ void Juego::ProcessCollisions()
 		}
 
 		//colicion de proyectiles con los bordes de la pantalla.
-		if (proyectil_torretaDOS.size() >= 0)
+		if (proyectiles_en_juego.size() >= 0)
 		{
 
-			for (int i = 0; i < proyectil_torretaDOS.size(); i++)
+			for (int i = 0; i < proyectiles_en_juego.size(); i++)
 			{
-				int y = proyectil_torretaDOS[i]->get_sprite().getPosition().y;
-				int x = proyectil_torretaDOS[i]->get_sprite().getPosition().x;
+				int y = (int)proyectiles_en_juego[i]->get_sprite().getPosition().y;
+				int x = (int)proyectiles_en_juego[i]->get_sprite().getPosition().x;
 
 				if (y < 50 || y > pantalla_alto || x < 20 || x > pantalla_ancho)
 				{
-					delete proyectil_torretaDOS[i];
-					proyectil_torretaDOS.erase(proyectil_torretaDOS.begin() + i);
+					delete proyectiles_en_juego[i];
+					proyectiles_en_juego.erase(proyectiles_en_juego.begin() + i);
 					break;
 				}
 			}
-
 		}
 
 		//colicion de los barriles con los bordes de la pantalla.
@@ -500,17 +450,6 @@ void Juego::Go()
 	}
 }
 
-void Juego::disparar_proyectiles(Vector2f pos_bocacha, float rotacion)
-{
-
-	if (tiempo2 > tiempo4 + 0.50f) //hacer variable para que se pueda modificar cuando recoja un bosster
-	{
-		tiempo4 = tiempo2;
-		//mouserposition
-		proyectil_torretaDOS.push_back(new Proyectil(pos_bocacha, mouserposition));
-
-	}
-}
 
 bool Juego::bombas_en_pantalla()
 {
@@ -601,11 +540,13 @@ void Juego::resetear_juego()
 		{
 			delete* it;
 		}
-		for (auto it = proyectil_torretaDOS.begin(); it != proyectil_torretaDOS.end(); it++)
+		/*
+		for (auto it = soldado->get_disparos().begin(); it != soldado->get_disparos().end(); it++)
 		{
 			delete* it;
 		}
-		proyectil_torretaDOS.clear();
+		soldado->get_disparos().clear();
+		*/
 		for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
 		{
 			delete* it;
@@ -636,11 +577,14 @@ Juego::~Juego()
 		delete* it;
 	}
 	pelotas.clear();
-	for (auto it = proyectil_torretaDOS.begin(); it != proyectil_torretaDOS.end(); it++)
+	/*
+	for (auto it = soldado->get_disparos().begin(); it != soldado->get_disparos().end(); it++)
 	{
 		delete* it;
 	}
-	proyectil_torretaDOS.clear();
+	
+	soldado->get_disparos().clear();
+	*/
 	for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
 	{
 		delete* it;

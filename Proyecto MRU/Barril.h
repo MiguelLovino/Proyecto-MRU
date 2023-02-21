@@ -23,4 +23,5 @@ public:
 	~Barril();
 	CircleShape get_sprite() { return *barril_explosivo; }
 	void actualizar();
+	
 };

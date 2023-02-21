@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include<SFML/Audio.hpp>
-#include "Pelota.h"
+#include "Bomba.h"
 #include "pantalla.h"
 #include "Mira.h"
 #include "Avion.h"
@@ -23,7 +23,7 @@ private:
 	void DrawGame();
 	void UpdateGame();
 	void ProcessCollisions();
-	vector <Pelota*> pelotas;
+	vector <Bomba*> pelotas;
 	vector <Barril*> barril_explosivo;
 	int pantalla_ancho = 1270;
 	int pantalla_alto = 720;
@@ -48,6 +48,7 @@ private:
 	Vector2f mouserposition;
 	Vector2f bombaposition;
 	Vector2f proyectil_pos_de_disparo;
+
 	/***********************************************/
 	Pantalla* pantalla_fondo;
 	Avion* bombardero;
@@ -58,8 +59,7 @@ private:
 	int max_barriles = 2;
 	Mira* Mira_cursor;
 	Jugador* soldado;
-	vector<Proyectil*> proyectil_torretaDOS;
-	void disparar_proyectiles(Vector2f pos_bocacha, float rotacion);
+	vector<Proyectil*> proyectiles_en_juego;
 	bool bombas_en_pantalla();
 	void velocidad_de_las_bombas();
 	Menu* menus;
@@ -74,9 +74,21 @@ private:
 	Sound sound_vida_menos;
 
 public:
+
 	Juego(int alto, int ancho, string titulo);
 	~Juego();
 	void Go();
-	void prueba_en_consola();
 	void resetear_juego();
+	void prueba_en_consola();
+	template <typename T>
+	void dibujar_vectores(const vector<T>& vector)
+	{
+		if (vector.size() > 0)
+		{
+			for (int i = 0; i < vector.size(); i++)
+			{
+				pWnd->draw(vector[i]->get_sprite());
+			}
+		}
+	}
 };

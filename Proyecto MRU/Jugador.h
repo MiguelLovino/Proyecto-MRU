@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include "Proyectiles.h"
+#include <vector>
 
 using namespace sf;
 using namespace std;
@@ -16,10 +18,13 @@ private:
 	Clock Reloj;
 	SoundBuffer recibir_daño_buffer;
 	Sound recibir_daño_sound;
-	float tiempo_delta;
+	float tiempo_delta = 0;
 	bool mira_derecha = true;
 	bool mira_izquierda = true;
 	RectangleShape* Cuerpo_colicion;
+	//vector <Proyectil*> disparos;
+	float retardo_bala = 0.50f;
+
 public:
 	Jugador(int ancho, int alto);
 	~Jugador();
@@ -32,4 +37,6 @@ public:
 	void reset(int ancho);
 	void reprodicir_dolor() { recibir_daño_sound.play(); }
 	RectangleShape get_colider() { return *Cuerpo_colicion; }
+	void disparar_proyectiles(Vector2f pos_bocacha, Vector2f mouserposition, float &tiempo2, float &tiempo4, vector <Proyectil*>& disparos);
+	
 };

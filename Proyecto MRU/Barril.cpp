@@ -44,3 +44,5 @@ void Barril::actualizar()
 	}
 	barril_explosivo->rotate(1 * velocidad_x / 20);
 }
+
+

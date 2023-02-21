@@ -1,8 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include "Mira.h"
-#include "Jugador.h"
+//#include "Jugador.h"
 #include "cmath"
 
 using namespace sf;
@@ -20,7 +21,7 @@ private:
 	float tiempo2 = 0;
 	float tiempodelta = 0;
 	Vector2f direction;
-	float longitud;
+	float longitud = 0;
 	float velocidad_proyectil = 500;
 	SoundBuffer buffer_proyectil;
 	Sound sound_proyectil;

@@ -20,7 +20,7 @@ private:
 	RectangleShape avion_en_pantalla;
 
 public:
-	Avion();
+	Avion(int ancho);
 	Sprite get_sprite_avion() { return *sprite_avion; }
 	void actualizar(RectangleShape zona_disparo);
 	void de_lado_a_lado();

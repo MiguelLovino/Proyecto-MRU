@@ -138,7 +138,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mira.cpp" />
     <ClCompile Include="pantalla.cpp" />
-    <ClCompile Include="Pelota.cpp" />
+    <ClCompile Include="Bomba.cpp" />
     <ClCompile Include="Proyectiles.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,7 +149,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Mira.h" />
     <ClInclude Include="pantalla.h" />
-    <ClInclude Include="Pelota.h" />
+    <ClInclude Include="Bomba.h" />
     <ClInclude Include="Proyectiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

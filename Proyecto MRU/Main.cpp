@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
+	srand((int)time(NULL));
 
 	Juego jugar(800, 600, "BomberSHooter");
 	jugar.Go();

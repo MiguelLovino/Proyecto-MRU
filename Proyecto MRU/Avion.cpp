@@ -1,6 +1,6 @@
 #include "Avion.h"
 
-Avion::Avion()
+Avion::Avion(int ancho)
 {
 
 	//reloj
@@ -11,7 +11,7 @@ Avion::Avion()
 	texture_avion->loadFromFile("recursos/avion.png");
 	sprite_avion = new Sprite;
 	sprite_avion->setTexture(*texture_avion);
-	sprite_avion->setPosition(801, -20);
+	sprite_avion->setPosition(ancho, -20);
 
 	velocidad.x = -1;
 	velocidad.y = 0;

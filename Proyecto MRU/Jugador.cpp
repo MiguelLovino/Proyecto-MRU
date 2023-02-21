@@ -7,10 +7,10 @@ Jugador::Jugador(int ancho, int alto)
 	jugador_sprite = new Sprite;
 	Cuerpo_colicion = new RectangleShape;
 	jugador_sprite->setTexture(*jugador_txt);
-	jugador_sprite->setPosition(ancho / 2, alto - 40);
+	jugador_sprite->setPosition((float)ancho / 2, (float)alto - 40);
 	//jugador_sprite->setScale(2.5, 2.5);
 	Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
-	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x - 10 * 2.5, jugador_sprite->getTexture()->getSize().y * 2.5)));
+	Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x - 10.0f * 2.5f, jugador_sprite->getTexture()->getSize().y * 2.5f)));
 	Cuerpo_colicion->setFillColor(Color::Red);
 	velocidad.x = 150;
 	velocidad.y = -7;
@@ -49,13 +49,13 @@ void Jugador::actualizar(Vector2f mira, RectangleShape limiteD, RectangleShape l
 	//reposicion del colider
 	if (mira_derecha == true)
 	{
-		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  - 30, jugador_sprite->getTexture()->getSize().y )));
-		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x + 13, jugador_sprite->getPosition().y);
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  - 30.f, (float)jugador_sprite->getTexture()->getSize().y )));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x + 13.f, jugador_sprite->getPosition().y);
 	}
 	if (mira_izquierda == true)
 	{
-		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  + 30 * -1, jugador_sprite->getTexture()->getSize().y )));
-		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x - 30, jugador_sprite->getPosition().y);
+		Cuerpo_colicion->setSize((Vector2f::Vector2(jugador_sprite->getTexture()->getSize().x  + 30.f * -1.f, (float)jugador_sprite->getTexture()->getSize().y )));
+		Cuerpo_colicion->setPosition(jugador_sprite->getPosition().x - 30.f, jugador_sprite->getPosition().y);
 	}
 	//actualizo el colider
 	//Cuerpo_colicion->setPosition(jugador_sprite->getPosition());
@@ -150,5 +150,18 @@ void Jugador::dar_vuelta(Vector2f mira)
 
 void Jugador::reset(int ancho)
 {
-	jugador_sprite->setPosition(ancho / 2, jugador_sprite->getPosition().y);
+	jugador_sprite->setPosition((float)ancho / 2, jugador_sprite->getPosition().y);
 }
+
+void Jugador::disparar_proyectiles(Vector2f pos_bocacha, Vector2f mouserposition, float& tiempo2, float& tiempo4, vector <Proyectil*>& disparos)
+{
+
+	if (tiempo2 > tiempo4 + retardo_bala) //hacer variable para que se pueda modificar cuando recoja un bosster
+	{
+		tiempo4 = tiempo2;
+		//mouserposition
+		disparos.push_back(new Proyectil(pos_bocacha, mouserposition));
+
+	}
+}
+

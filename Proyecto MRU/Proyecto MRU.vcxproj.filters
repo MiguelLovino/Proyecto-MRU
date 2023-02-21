@@ -21,7 +21,7 @@
     <ClCompile Include="Juego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pelota.cpp">
+    <ClCompile Include="Bomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pantalla.cpp">
@@ -50,7 +50,7 @@
     <ClInclude Include="Juego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pelota.h">
+    <ClInclude Include="Bomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pantalla.h">
