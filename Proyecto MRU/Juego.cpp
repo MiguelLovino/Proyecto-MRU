@@ -109,7 +109,7 @@ void Juego::DrawGame()
 
 	}
 	//MENUS DE PANTALLA DE JUEGO
-	menus->dibujar_menu_juego(pWnd, pantalla_fondo, Mira_cursor);
+	menus->dibujar_menu_juego(pWnd, pantalla_fondo, Mira_cursor, vida);
 
 }
 
@@ -200,7 +200,7 @@ void Juego::UpdateGame()
 		//zona de disparo
 		zona_disparoRECT->setPosition(pantalla_ancho / 2 - zona_disparoRECT->getGlobalBounds().width / 2, 50);
 		//actualizar avion
-		bombardero->actualizar(*zona_disparoRECT);
+		bombardero->actualizar(*zona_disparoRECT, bombas_en_pantalla());
 
 		//actualizar bombas
 		if (pelotas.size() >= 0)
@@ -540,13 +540,13 @@ void Juego::resetear_juego()
 		{
 			delete* it;
 		}
-		/*
-		for (auto it = soldado->get_disparos().begin(); it != soldado->get_disparos().end(); it++)
+		
+		for (auto it = proyectiles_en_juego.begin(); it != proyectiles_en_juego.end(); it++)
 		{
 			delete* it;
 		}
-		soldado->get_disparos().clear();
-		*/
+		proyectiles_en_juego.clear();
+		
 		for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
 		{
 			delete* it;
@@ -577,14 +577,14 @@ Juego::~Juego()
 		delete* it;
 	}
 	pelotas.clear();
-	/*
-	for (auto it = soldado->get_disparos().begin(); it != soldado->get_disparos().end(); it++)
+	
+	for (auto it = proyectiles_en_juego.begin(); it != proyectiles_en_juego.end(); it++)
 	{
 		delete* it;
 	}
 	
-	soldado->get_disparos().clear();
-	*/
+	proyectiles_en_juego.clear();
+	
 	for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
 	{
 		delete* it;

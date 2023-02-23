@@ -18,6 +18,7 @@ private:
 	bool menu_loop = true;
 	bool batalla_loop = false;
 	Text* texto_inicio;
+	Text* nombre_juego;
 	Text* texto_juego_vida;
 	Text* texto_juego_puntaje;
 	Text* texto_juego_fase;
@@ -31,6 +32,13 @@ private:
 	Sound sonido_menu_loop;
 	SoundBuffer batalla_buffer;
 	Sound batalla_sound;
+	Clock* reloj_principal;
+	float tiempo_principal = 0;
+	float retardo_principal = 0.1;
+	bool escala_dinamica = true;
+	Texture* vida_txt;
+	Sprite* vida_spr[5];
+
 
 public:
 	Menu();
@@ -39,9 +47,10 @@ public:
 	void fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito, int puntaje);
 	void dibujar_fin(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor);
 	void menu_juego_actualizar(int vida, int puntaje, int fase);
-	void dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor);
+	void dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor, int vida);
 	bool get_pantalla_juego() { return pantalla_juego; }
 	void set_pantalla_juego(bool valor) { pantalla_juego = valor; }
 	void set_pantalla_fin(bool valor) { pantalla_fin = valor; }
+	void animacion_nomre_juego(int ancho);
 };
 

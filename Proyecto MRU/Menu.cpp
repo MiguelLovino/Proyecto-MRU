@@ -7,11 +7,31 @@ Menu::Menu()
 	fuente_txt = new Font;
 	fuente_txt->loadFromFile("recursos/Ss.ttf");
 
+	reloj_principal = new Clock;
+
+	vida_txt = new Texture;
+	for (int i = 0; i < 5; i++)
+	{
+		vida_spr[i] = new Sprite;
+	}
+	vida_txt->loadFromFile("recursos/corazon.png");
+
+	for (int i = 0; i < 5; i++)
+	{
+		vida_spr[i]->setTexture(*vida_txt);
+	}
+
 	texto_inicio = new Text;
 	texto_inicio->setFont(*fuente_txt);
 	texto_inicio->setString("JUGAR");
 	texto_inicio->setPosition(100, 200);
 	texto_inicio->setCharacterSize(50);
+	nombre_juego = new Text;
+	nombre_juego->setFont(*fuente_txt);
+	nombre_juego->setString("BOMBER SHOOTER");
+	nombre_juego->setPosition(400, 100);
+	nombre_juego->setCharacterSize(50);
+	nombre_juego->setFillColor(Color::Black);
 
 	//textos correspondiente a la parte del juego
 	texto_juego_vida = new Text;
@@ -75,6 +95,7 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 	{
 		if (menu_loop == true)
 		{
+			
 			sonido_menu_loop.play();
 			sonido_menu_loop.setLoop(true);
 			menu_loop = false;
@@ -131,7 +152,7 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 	{
 		sonido_menu_loop.stop();
 	}
-	//reloj para actualizar el estado de la cancion
+	
 }
 
 void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor)
@@ -144,6 +165,8 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 		pWnd->draw(*texto_inicio);
 		pWnd->draw(*texo_salir);
 		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
+		pWnd->draw(*nombre_juego);
+		animacion_nomre_juego(pantalla_fondo->get_sprite_fondoPantalla().getGlobalBounds().width);
 	}
 }
 
@@ -250,16 +273,62 @@ void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
 	}
 	texto_juego_vida->setString("vida: " + to_string(vida));
 	texto_juego_puntaje->setString("puntaje " + to_string(puntaje));
+	
+	for (int i = 0; i < 5; i++)
+	{
+		int espaciador = 10 + (i * 55);
+		vida_spr[i]->setPosition(espaciador, 20);
+	}
 
 
 }
 
-void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor)
+void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor, int vida)
 {
 	if (pantalla_juego == true)
 	{
-		pWnd->draw(*texto_juego_vida);
+		//pWnd->draw(*texto_juego_vida);
 		pWnd->draw(*texto_juego_puntaje);
+		
+		for (int i = 0; i <	vida; i++)
+		{
+			pWnd->draw(*vida_spr[i]);
+		}
 		//pWnd->draw(*texto_juego_fase);
 	}
+}
+
+void Menu::animacion_nomre_juego(int ancho)
+{
+	
+
+	tiempo_principal = reloj_principal->getElapsedTime().asSeconds();
+
+	if (tiempo_principal > retardo_principal)
+	{
+		if (nombre_juego->getCharacterSize() >= 50 && escala_dinamica == true)
+		{
+
+			nombre_juego->setCharacterSize(nombre_juego->getCharacterSize() + 1);
+			if (nombre_juego->getCharacterSize() == 70)
+
+			{
+				escala_dinamica = false;
+			}
+		}
+
+		if (nombre_juego->getCharacterSize() <= 70 && escala_dinamica == false)
+		{
+			nombre_juego->setCharacterSize(nombre_juego->getCharacterSize() - 1);
+			if (nombre_juego->getCharacterSize() == 50)
+
+			{
+				escala_dinamica = true;
+			}
+
+		}
+
+		reloj_principal->restart();
+	}
+	nombre_juego->setPosition(ancho / 2 - nombre_juego->getGlobalBounds().width / 2, nombre_juego->getPosition().y);
 }

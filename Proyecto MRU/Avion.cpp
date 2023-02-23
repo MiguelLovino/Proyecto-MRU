@@ -30,31 +30,43 @@ Avion::Avion(int ancho)
 }
 
 
-void Avion::actualizar(RectangleShape zona_disparo)
+void Avion::actualizar(RectangleShape zona_disparo, bool start)
 {
 
 	tiempo1 = 3.20f;
 	sprite_avion->setPosition(sprite_avion->getPosition() + (velocidad * tiempo1));
-	de_lado_a_lado();
+	de_lado_a_lado(start);
 	posision_disparo(zona_disparo);
 	reproducir_sonido_avion();
 
 }
 
-void Avion::de_lado_a_lado()
+void Avion::de_lado_a_lado(bool start)
 {
 
 	if (sprite_avion->getPosition().x <= 0 - sprite_avion->getGlobalBounds().width)
 	{
-		velocidad.x = 1;
+		velocidad.x = 0;
 		sprite_avion->setScale(-1, 1); //dar vuelta la imagen
+
+		if (start == false)
+		{
+
+		velocidad.x = 1;
+
+		}
 
 	}
 
-	if (sprite_avion->getPosition().x >= 800 + sprite_avion->getGlobalBounds().width)
+	if (sprite_avion->getPosition().x >= 1270 + sprite_avion->getGlobalBounds().width)
 	{
-		velocidad.x = -1;
+		velocidad.x = 0;
 		sprite_avion->setScale(1, 1);
+
+		if (start == false)
+		{
+			velocidad.x = -1;
+		}
 	}
 
 
