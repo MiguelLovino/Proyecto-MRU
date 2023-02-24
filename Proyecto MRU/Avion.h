@@ -24,7 +24,7 @@ public:
 	Sprite get_sprite_avion() { return *sprite_avion; }
 	void actualizar(RectangleShape zona_disparo, bool start);
 	void de_lado_a_lado(bool start);
-	void reset_avion();
+	void reset_avion(int p_ancho);
 	float get_velocidad_avion_X() { return velocidad.x; }
 	bool posision_disparo(RectangleShape zona_disparo);
 	void reproducir_sonido_avion();

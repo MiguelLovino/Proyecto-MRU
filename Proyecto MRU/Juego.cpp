@@ -552,7 +552,7 @@ void Juego::resetear_juego()
 			delete* it;
 		}
 		barril_explosivo.clear();
-		bombardero->reset_avion();
+		bombardero->reset_avion(pantalla_ancho);
 		soldado->reset(pantalla_ancho);
 		Game_over = false;
 		menus->set_pantalla_juego(false);
