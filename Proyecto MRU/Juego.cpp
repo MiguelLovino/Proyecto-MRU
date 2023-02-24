@@ -86,13 +86,13 @@ void Juego::DrawGame()
 	if (menus->get_pantalla_juego() == true)
 	{
 		//** DIBUJAR ACA LAS COSAS QUE NECESITO ESCONDER (para testing) **//
-
-		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
-	
 		pWnd->draw(*zona_disparoRECT);
 		pWnd->draw(*soldadoRECT);
 		pWnd->draw(soldado->get_colider());
 		pWnd->draw(*avionRECT);
+
+		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla()); //dibujo pantalla
+	
 
 		//************************************************//
 

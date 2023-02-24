@@ -19,6 +19,7 @@ Menu::Menu()
 	for (int i = 0; i < 5; i++)
 	{
 		vida_spr[i]->setTexture(*vida_txt);
+	
 	}
 
 	texto_inicio = new Text;
@@ -63,9 +64,9 @@ Menu::Menu()
 	texto_fin->setString("REINICIAR");
 	texto_fin->setPosition(300, 200);
 	texto_fin->setCharacterSize(50);
-	puntaje_final->setFillColor(Color::Blue);
+	puntaje_final->setFillColor(Color::Black);
 	puntaje_final->setFont(*fuente_txt);
-	puntaje_final->setPosition(50, 500);
+	puntaje_final->setPosition(50, 650);
 	puntaje_final->setCharacterSize(50);
 	//texto correspondiente a SALIR
 	texo_salir = new Text;
@@ -73,6 +74,12 @@ Menu::Menu()
 	texo_salir->setString("SALIR");
 	texo_salir->setPosition(100, 300);
 	texo_salir->setCharacterSize(50);
+
+	//tutorial
+	tutorial_txt.loadFromFile("recursos/tutorial.png");
+	tutorial_spr.setTexture(tutorial_txt);
+	tutorial_spr.setPosition(20, 50);
+	
 
 	//sonido correspondientes a los menus.
 
@@ -162,11 +169,51 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 	if (pantalla_menu == true)
 	{
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
+		pWnd->draw(tutorial_spr);
 		pWnd->draw(*texto_inicio);
 		pWnd->draw(*texo_salir);
 		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 		pWnd->draw(*nombre_juego);
 		animacion_nomre_juego(pantalla_fondo->get_sprite_fondoPantalla().getGlobalBounds().width);
+	}
+}
+
+void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
+{
+	//agregar puntaje
+	if (batalla_loop == true)
+	{
+		batalla_sound.play();
+		batalla_sound.setLoop(true);
+		batalla_loop = false;
+	}
+	//texto_juego_vida->setString("vida: " + to_string(vida));
+	texto_juego_puntaje->setPosition(635 - texto_juego_puntaje->getGlobalBounds().width / 2, texto_juego_puntaje->getPosition().y);
+	texto_juego_puntaje->setString("puntaje " + to_string(puntaje));
+	
+	for (int i = 0; i < 5; i++)
+	{
+		int espacio_entre_corazones = 5;
+		int espaciador_inicial = 10 + (i * (espacio_entre_corazones + vida_spr[i]->getGlobalBounds().width));
+		vida_spr[i]->setPosition(espaciador_inicial, 20);
+	}
+
+
+}
+
+void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor, int vida)
+{
+	if (pantalla_juego == true)
+	{
+		//pWnd->draw(*texto_juego_vida);
+		
+		pWnd->draw(*texto_juego_puntaje);
+		
+		for (int i = 0; i <	vida; i++)
+		{
+			pWnd->draw(*vida_spr[i]);
+		}
+		//pWnd->draw(*texto_juego_fase);
 	}
 }
 
@@ -176,8 +223,10 @@ void Menu::fin_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWn
 	if (pantalla_fin == true)
 	{
 		batalla_sound.stop();
-		texo_salir->setPosition(300, 300);
-		puntaje_final->setString(" Tu puntaje final: " + to_string(puntaje));
+		texto_fin->setPosition(pWnd->getSize().x / 2 - texto_fin->getGlobalBounds().width / 2, 200);
+		texo_salir->setPosition(pWnd->getSize().x /2 - texo_salir->getGlobalBounds().width / 2, 300);
+		puntaje_final->setPosition(pWnd->getSize().x / 2 - puntaje_final->getGlobalBounds().width / 2, 650);
+		puntaje_final->setString("Puntaje final: " + to_string(puntaje));
 
 		if (eventito.type == eventito.MouseButtonReleased && eventito.mouseButton.button == Mouse::Left)
 		{
@@ -259,43 +308,6 @@ void Menu::dibujar_fin(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_
 
 
 
-}
-
-
-void Menu::menu_juego_actualizar(int vida, int puntaje, int fase)
-{
-	//agregar puntaje
-	if (batalla_loop == true)
-	{
-		batalla_sound.play();
-		batalla_sound.setLoop(true);
-		batalla_loop = false;
-	}
-	texto_juego_vida->setString("vida: " + to_string(vida));
-	texto_juego_puntaje->setString("puntaje " + to_string(puntaje));
-	
-	for (int i = 0; i < 5; i++)
-	{
-		int espaciador = 10 + (i * 55);
-		vida_spr[i]->setPosition(espaciador, 20);
-	}
-
-
-}
-
-void Menu::dibujar_menu_juego(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mira_cursor, int vida)
-{
-	if (pantalla_juego == true)
-	{
-		//pWnd->draw(*texto_juego_vida);
-		pWnd->draw(*texto_juego_puntaje);
-		
-		for (int i = 0; i <	vida; i++)
-		{
-			pWnd->draw(*vida_spr[i]);
-		}
-		//pWnd->draw(*texto_juego_fase);
-	}
 }
 
 void Menu::animacion_nomre_juego(int ancho)

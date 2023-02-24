@@ -38,7 +38,8 @@ private:
 	bool escala_dinamica = true;
 	Texture* vida_txt;
 	Sprite* vida_spr[5];
-
+	Texture tutorial_txt;
+	Sprite tutorial_spr;
 
 public:
 	Menu();
