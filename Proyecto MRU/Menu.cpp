@@ -85,9 +85,18 @@ Menu::Menu()
 	texo_salir->setOutlineColor(Color::Blue);
 
 	//tutorial
+	tutorial = new Text;
+	tutorial->setFont(*fuente_txt);
+	tutorial->setString("TUTORIAL");
+	tutorial->setPosition(100, 400);
+	tutorial->setCharacterSize(50);
+	tutorial->setOutlineThickness(5.f);
+	tutorial->setOutlineColor(Color::Blue);
+
 	tutorial_txt.loadFromFile("recursos/tutorial.png");
 	tutorial_spr.setTexture(tutorial_txt);
 	tutorial_spr.setPosition(20, 50);
+
 	
 
 	//sonido correspondientes a los menus.
@@ -132,6 +141,7 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 			{
 				pWnd->close();
 			}
+			
 		}
 		mira->set_pos_mira(mouserposition);
 		if (mira->get_sprite().getGlobalBounds().intersects(texto_inicio->getGlobalBounds()))
@@ -163,6 +173,25 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 			texo_salir->setFillColor(Color::White);
 			rep_salir = true;
 		}
+		if (mira->get_sprite().getGlobalBounds().intersects(tutorial->getGlobalBounds()))
+		{
+			tutorial->setFillColor(Color::Black);
+			if (rep_tutorial == true)
+			{
+				sonido_menu.play();
+				rep_tutorial = false;
+			}
+			dibu_tutorial = true;
+			
+
+		}
+		else
+		{
+			tutorial->setFillColor(Color::White);
+			rep_tutorial = true;
+			dibu_tutorial = false;
+
+		}
 
 	}
 	else
@@ -179,9 +208,16 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 	if (pantalla_menu == true)
 	{
 		pWnd->draw(pantalla_fondo->get_sprite_fondoPantalla());
+		if (dibu_tutorial == true)
+		{
+
 		pWnd->draw(tutorial_spr);
+
+		}
+		pWnd->draw(*tutorial);
 		pWnd->draw(*texto_inicio);
 		pWnd->draw(*texo_salir);
+
 		pWnd->draw(Mira_cursor->get_sprite()); //dibujo la mira
 		pWnd->draw(*nombre_juego);
 		animacion_nomre_juego(pantalla_fondo->get_sprite_fondoPantalla().getGlobalBounds().width);

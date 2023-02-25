@@ -16,6 +16,7 @@ private:
 	bool rep_salir = true;
 	bool rep_jugar = true;
 	bool menu_loop = true;
+	bool rep_tutorial = true;
 	bool batalla_loop = false;
 	Text* texto_inicio;
 	Text* nombre_juego;
@@ -26,6 +27,7 @@ private:
 	Text* texo_salir;
 	Font* fuente_txt;
 	Text* puntaje_final;
+	Text* tutorial;
 	SoundBuffer buffer_menu;
 	Sound sonido_menu;
 	SoundBuffer Buffer_menu_loop;
@@ -36,11 +38,12 @@ private:
 	float tiempo_principal = 0;
 	float retardo_principal = 0.1;
 	bool escala_dinamica = true;
+	bool  dibu_tutorial = false;
 	Texture* vida_txt;
 	Sprite* vida_spr[5];
 	Texture tutorial_txt;
 	Sprite tutorial_spr;
-
+	
 
 public:
 	Menu();
