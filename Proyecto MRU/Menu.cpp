@@ -27,12 +27,16 @@ Menu::Menu()
 	texto_inicio->setString("JUGAR");
 	texto_inicio->setPosition(100, 200);
 	texto_inicio->setCharacterSize(50);
+	texto_inicio->setOutlineThickness(5.f);
+	texto_inicio->setOutlineColor(Color::Blue);
 	nombre_juego = new Text;
 	nombre_juego->setFont(*fuente_txt);
 	nombre_juego->setString("BOMBER SHOOTER");
 	nombre_juego->setPosition(400, 100);
 	nombre_juego->setCharacterSize(50);
 	nombre_juego->setFillColor(Color::Black);
+	nombre_juego->setOutlineThickness(5.0f);
+	nombre_juego->setOutlineColor(Color::White);
 
 	//textos correspondiente a la parte del juego
 	texto_juego_vida = new Text;
@@ -64,16 +68,21 @@ Menu::Menu()
 	texto_fin->setString("REINICIAR");
 	texto_fin->setPosition(300, 200);
 	texto_fin->setCharacterSize(50);
+	texto_fin->setOutlineThickness(5.f);
+	texto_fin->setOutlineColor(Color::Blue);
 	puntaje_final->setFillColor(Color::Black);
 	puntaje_final->setFont(*fuente_txt);
 	puntaje_final->setPosition(50, 650);
 	puntaje_final->setCharacterSize(50);
+	
 	//texto correspondiente a SALIR
 	texo_salir = new Text;
 	texo_salir->setFont(*fuente_txt);
 	texo_salir->setString("SALIR");
 	texo_salir->setPosition(100, 300);
 	texo_salir->setCharacterSize(50);
+	texo_salir->setOutlineThickness(5.f);
+	texo_salir->setOutlineColor(Color::Blue);
 
 	//tutorial
 	tutorial_txt.loadFromFile("recursos/tutorial.png");
@@ -137,6 +146,7 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 		else
 		{
 			texto_inicio->setFillColor(Color::White);
+			
 			rep_jugar = true;
 		}
 		if (mira->get_sprite().getGlobalBounds().intersects(texo_salir->getGlobalBounds()))

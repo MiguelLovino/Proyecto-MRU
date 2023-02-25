@@ -41,6 +41,7 @@ private:
 	Texture tutorial_txt;
 	Sprite tutorial_spr;
 
+
 public:
 	Menu();
 	void inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito);
