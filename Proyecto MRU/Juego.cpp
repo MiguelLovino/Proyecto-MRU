@@ -97,6 +97,8 @@ void Juego::DrawGame()
 		//************************************************//
 
 		pWnd->draw(bombardero->get_sprite_avion()); //avion
+		//dibujo vida_up
+		dibujar_vectores(vida_up);
 		//dibujo barriles
 		dibujar_vectores(barril_explosivo);
 		//dibujo bombas
@@ -224,6 +226,15 @@ void Juego::UpdateGame()
 			}
 		}
 
+		//actualizar vida_up
+		if (vida_up.size() >= 0)
+		{
+			for (int i = 0; i < vida_up.size(); i++)
+			{
+				vida_up[i]->actualizar();
+			}
+		}
+
 		//posiciones y estados
 
 		//actualizo el sprite del avion cuando llega al final de la pantalla
@@ -239,6 +250,14 @@ void Juego::UpdateGame()
 		}
 
 		bombaposition.y = bombardero->get_sprite_avion().getPosition().y + 134;
+		
+		//tirar vida_up
+		if (tiempo2 > tiempo5)
+		{
+			tiempo5 = tiempo2 + 5.0f;
+			vida_up.push_back(new items("recursos/corazon.png", pantalla_ancho));
+			cout << "se crea el objeto" << endl;
+		}
 
 		//tirar bombas
 		if (tiempo2 > tiempo3)
@@ -359,6 +378,28 @@ void Juego::ProcessCollisions()
 					delete proyectiles_en_juego[i];
 					proyectiles_en_juego.erase(proyectiles_en_juego.begin() + i);
 					break;
+				}
+			}
+		}
+
+		//coliciones de vida_up
+
+		if (vida_up.size() >= 0)
+		{
+			for (int i = 0; i < vida_up.size(); i++)
+			{
+				vida_up[i]->colision(pantalla_alto);
+				
+				if (vida_up[i]->get_sprite().getGlobalBounds().intersects(soldado->get_colider().getGlobalBounds()))
+				{
+					if (vida < 5)
+					{
+						vida++;
+					}
+
+				delete vida_up[i];
+				vida_up.erase(vida_up.begin() + i);
+
 				}
 			}
 		}
