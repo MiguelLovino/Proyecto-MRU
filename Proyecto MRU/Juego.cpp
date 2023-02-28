@@ -526,6 +526,7 @@ void Juego::prueba_en_consola()
 	//bombas_en_pantalla();
 	//cout << acercamiento << endl;
 	//cout << soldado->get_sprite().getGlobalBounds().width << endl;
+	//se agrea linea para probar la nueva branch
 }
 
 void Juego::resetear_juego()
