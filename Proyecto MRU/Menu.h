@@ -43,6 +43,11 @@ private:
 	Sprite* vida_spr[5];
 	Texture tutorial_txt;
 	Sprite tutorial_spr;
+	Texture* mute_txt;
+	Texture* unmute_txt;
+	Sprite* mute_spr;
+	bool muteado = false;
+
 	
 
 public:

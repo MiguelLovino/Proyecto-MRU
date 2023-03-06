@@ -14,6 +14,7 @@ private:
 	Texture* item_txt;
 	Vector2f velocidad;
 	Vector2f aceleracion;
+	Vector2f nueva_pos;
 	Clock* reloj_principal;
 	float tiempo_delta = 0;
 

@@ -256,7 +256,7 @@ void Juego::UpdateGame()
 		{
 			tiempo5 = tiempo2 + 5.0f;
 			vida_up.push_back(new items("recursos/corazon.png", pantalla_ancho));
-			cout << "se crea el objeto" << endl;
+			//cout << "se crea el objeto" << endl;
 		}
 
 		//tirar bombas
@@ -568,6 +568,8 @@ void Juego::prueba_en_consola()
 	//cout << acercamiento << endl;
 	//cout << soldado->get_sprite().getGlobalBounds().width << endl;
 	//se agrea linea para probar la nueva branch
+
+	
 }
 
 void Juego::resetear_juego()

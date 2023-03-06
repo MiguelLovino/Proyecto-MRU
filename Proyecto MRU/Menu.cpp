@@ -111,6 +111,15 @@ Menu::Menu()
 	batalla_buffer.loadFromFile("recursos/Sonido/battle song.ogg");
 	batalla_sound.setBuffer(batalla_buffer);
 
+	//sonido mune-unmuted
+	unmute_txt = new Texture;
+	unmute_txt->loadFromFile("recursos/mute2.png");
+	mute_txt = new Texture;
+	mute_spr = new Sprite;
+	mute_txt->loadFromFile("recursos/unmuted.png");
+	mute_spr->setTexture(*mute_txt);
+	mute_spr->setPosition(1150, 50);
+	
 }
 
 void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* pWnd, Event& eventito)
@@ -126,6 +135,7 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 			menu_loop = false;
 		}
 		texo_salir->setPosition(100, 300);
+		
 		if (eventito.type == eventito.MouseButtonPressed && eventito.mouseButton.button == Mouse::Left)
 		{
 
@@ -192,6 +202,23 @@ void Menu::inicio_actualizar(Mira* mira, Vector2f mouserposition, RenderWindow* 
 			dibu_tutorial = false;
 
 		}
+		if (mira->get_sprite().getGlobalBounds().intersects(mute_spr->getGlobalBounds()))
+		{
+			mute_spr->setScale(1.1, 1.1);
+
+				if (eventito.type == eventito.MouseButtonPressed && eventito.mouseButton.button == Mouse::Left && muteado == false)
+				{
+						mute_spr->setTexture(*unmute_txt);
+						muteado = true;
+						sonido_menu.pause();
+						sonido_menu_loop.pause();
+				}
+		}
+		else
+		{
+			mute_spr->setScale(1, 1);
+
+		}
 
 	}
 	else
@@ -214,6 +241,7 @@ void Menu::dibujar_inicio(RenderWindow* pWnd, Pantalla* pantalla_fondo, Mira* Mi
 		pWnd->draw(tutorial_spr);
 
 		}
+		pWnd->draw(*mute_spr);
 		pWnd->draw(*tutorial);
 		pWnd->draw(*texto_inicio);
 		pWnd->draw(*texo_salir);
