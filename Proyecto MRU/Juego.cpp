@@ -101,6 +101,7 @@ void Juego::DrawGame()
 		dibujar_vectores(barril_explosivo);
 		//dibujo bombas
 		dibujar_vectores(pelotas);
+		dibujar_vectores(granada_de_mano);
 		//dibujo proyectiles
 		dibujar_vectores(proyectiles_en_juego);
 		pWnd->draw(soldado->get_sprite());
@@ -144,8 +145,13 @@ void Juego::UpdateGame()
 		//DISPARAR
 		if (Mouse::isButtonPressed(Mouse::Left))
 		{
-			soldado->disparar_proyectiles(proyectil_pos_de_disparo,mouserposition,tiempo2,tiempo4,proyectiles_en_juego); //crea los proyectilesproyectiles
+			//crea los proyectilesproyectiles
+			soldado->disparar_proyectiles(proyectil_pos_de_disparo,mouserposition,tiempo2,tiempo4,proyectiles_en_juego); 
 
+		}
+		if (Keyboard::isKeyPressed(Keyboard::R))
+		{
+			soldado->tirar_granadas(proyectil_pos_de_disparo, mouserposition,tiempo2, tiempo5, granada_de_mano);
 		}
 		//MOVIMIENTOS
 		if (Keyboard::isKeyPressed(Keyboard::D))
@@ -171,10 +177,10 @@ void Juego::UpdateGame()
 		proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 		proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
 
-		//personaje
+		//actualizo personaje
 		soldado->actualizar(Mira_cursor->get_sprite().getPosition(), limite_ancho_derecha, limite_ancho_izquierda, pantalla_ancho, pantalla_alto);
 
-		//actualizar pos a donde mira.
+		//actualizo la posicion del sprite segun donde "apunte"
 		if (Mira_cursor->get_sprite().getPosition().x > soldado->get_sprite().getPosition().x)
 		{
 			soldadoRECT->setPosition(soldado->get_sprite().getPosition().x + 23, soldado->get_sprite().getPosition().y);
@@ -197,8 +203,10 @@ void Juego::UpdateGame()
 				proyectiles_en_juego[i]->actualizar();
 			}
 		}
+
 		//zona de disparo
 		zona_disparoRECT->setPosition(pantalla_ancho / 2 - zona_disparoRECT->getGlobalBounds().width / 2, 50);
+		
 		//actualizar avion
 		bombardero->actualizar(*zona_disparoRECT, bombas_en_pantalla());
 
@@ -217,10 +225,16 @@ void Juego::UpdateGame()
 			for (int i = 0; i < barril_explosivo.size(); i++)
 			{
 				barril_explosivo[i]->actualizar();
+				//acercamiento = (int)(soldado->get_sprite().getPosition().x - barril_explosivo[i]->get_sprite().getPosition().x);
+			}
+		}
 
-				acercamiento = (int)(soldado->get_sprite().getPosition().x - barril_explosivo[i]->get_sprite().getPosition().x);
-
-
+		//actualizar granadas
+		if (granada_de_mano.size() >= 0)
+		{
+			for (int i = 0; i < granada_de_mano.size(); i++)
+			{
+				granada_de_mano[i]->actualizar();
 			}
 		}
 
@@ -341,6 +355,45 @@ void Juego::ProcessCollisions()
 						barril_explosivo.erase(barril_explosivo.begin() + i);
 						break;
 					}
+				}
+			}
+		}
+
+		//colicion de granada con barriles.
+		if (granada_de_mano.size() >= 0 && barril_explosivo.size())
+		{
+			for (int i = 0; i < granada_de_mano.size(); i++)
+			{
+				for (int j = 0; j < barril_explosivo.size(); j++)
+				{
+					if (granada_de_mano[i]->get_sprite().getGlobalBounds().intersects(barril_explosivo[j]->get_sprite().getGlobalBounds()))
+					{
+						puntaje += 10;
+						delete granada_de_mano[i];
+						granada_de_mano.erase(granada_de_mano.begin() + i);
+						sound_explo.play();
+						delete barril_explosivo[j];
+						barril_explosivo.erase(barril_explosivo.begin() + j);
+						break;
+
+					}
+				}
+			}
+		}
+
+		//colicion de granadas con los bordes de la pantalla.
+		if (granada_de_mano.size() >= 0)
+		{
+			for (int i = 0; i < granada_de_mano.size(); i++)
+			{
+				int x = granada_de_mano[i]->get_sprite().getPosition().x;
+				int y = granada_de_mano[i]->get_sprite().getPosition().y;
+
+				if (y > pantalla_alto || x < 0 || x > pantalla_ancho)
+				{
+					delete granada_de_mano[i];
+					granada_de_mano.erase(granada_de_mano.begin() + i);
+					break;
 				}
 			}
 		}
@@ -553,6 +606,13 @@ void Juego::resetear_juego()
 			delete* it;
 		}
 		barril_explosivo.clear();
+		
+		for (auto it = granada_de_mano.begin(); it != granada_de_mano.end(); it++)
+		{
+			delete* it;
+		}
+		granada_de_mano.clear();
+
 		bombardero->reset_avion(pantalla_ancho);
 		soldado->reset(pantalla_ancho);
 		Game_over = false;

@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "Mira.h"
-//#include "Jugador.h"
 #include "cmath"
 
 using namespace sf;

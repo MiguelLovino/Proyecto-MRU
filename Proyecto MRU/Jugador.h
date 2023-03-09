@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "Proyectiles.h"
+#include "Granada.h"
 #include <vector>
 
 using namespace sf;
@@ -24,6 +25,7 @@ private:
 	RectangleShape* Cuerpo_colicion;
 	//vector <Proyectil*> disparos;
 	float retardo_bala = 0.50f;
+	float retardo_granda = 1.5f;
 
 public:
 	Jugador(int ancho, int alto);
@@ -38,5 +40,5 @@ public:
 	void reprodicir_dolor() { recibir_daño_sound.play(); }
 	RectangleShape get_colider() { return *Cuerpo_colicion; }
 	void disparar_proyectiles(Vector2f pos_bocacha, Vector2f mouserposition, float &tiempo2, float &tiempo4, vector <Proyectil*>& disparos);
-	
-};
+	void tirar_granadas(Vector2f pos_bocacha, Vector2f mouserposition, float& tiempo2, float& tiempo4, vector <Granada*>& granada);
+}; 

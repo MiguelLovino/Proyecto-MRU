@@ -165,3 +165,17 @@ void Jugador::disparar_proyectiles(Vector2f pos_bocacha, Vector2f mouserposition
 	}
 }
 
+void Jugador::tirar_granadas(Vector2f pos_bocacha, Vector2f mouserposition, float& tiempo2, float& tiempo4,  vector<Granada*>& granada)
+{
+	if (tiempo2 > tiempo4 + retardo_granda)
+	{
+		tiempo4 = tiempo2;
+		granada.push_back(new Granada(pos_bocacha, mouserposition));
+		
+	}
+}
+
+
+
+
+

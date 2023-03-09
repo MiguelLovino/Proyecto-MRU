@@ -12,6 +12,7 @@
 #include "Menu.h"
 #include "Jugador.h"
 #include "Barril.h"
+#include "Granada.h"
 
 using namespace sf;
 using namespace std;
@@ -25,6 +26,7 @@ private:
 	void ProcessCollisions();
 	vector <Bomba*> pelotas;
 	vector <Barril*> barril_explosivo;
+	vector <Granada*> granada_de_mano;
 	int pantalla_ancho = 1270;
 	int pantalla_alto = 720;
 	RectangleShape limite_ancho_izquierda;
@@ -44,6 +46,7 @@ private:
 	float tiempo2 = 0;
 	float tiempo3 = 1.50f;
 	float tiempo4 = 0.50;
+	float tiempo5 = 1.5f;
 	float tiempo_barril_explosivo = 1;
 	Vector2f mouserposition;
 	Vector2f bombaposition;
