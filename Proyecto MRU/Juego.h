@@ -64,7 +64,7 @@ private:
 	Jugador* soldado;
 	vector<Proyectil*> proyectiles_en_juego;
 	bool bombas_en_pantalla();
-	void velocidad_de_las_bombas();
+	void dificultad_de_juego();
 	Menu* menus;
 	//rect para despues borrar para soldado y bombardero
 	sf::RectangleShape* soldadoRECT;
@@ -93,5 +93,14 @@ public:
 				pWnd->draw(vector[i]->get_sprite());
 			}
 		}
+	}
+	template <typename V>
+	void borrar_vectores(const vector<V>& vector)
+	{
+		for (auto it = vector.begin(); it != vector.end(); it++)
+		{
+			delete* it;
+		}
+		
 	}
 };

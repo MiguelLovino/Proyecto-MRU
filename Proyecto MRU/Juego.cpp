@@ -274,7 +274,7 @@ void Juego::UpdateGame()
 		}
 
 		//tirar barriles
-		velocidad_de_las_bombas();
+		dificultad_de_juego();
 
 		//***************reset cargador de bombas***********************//
 		//se resetean las bombas y los barriles cuando el avion se encuentra en un punto ciego, entre los bordes y la ventana de disparo.
@@ -508,20 +508,18 @@ bool Juego::bombas_en_pantalla()
 {
 	if (pelotas.size() > 0)
 	{
-
 		return true;
 	}
 	else
 	{
-
 		return false;
 	}
 }
 
-void Juego::velocidad_de_las_bombas() //CAMBIAR NOMBRE A DIFICULTAD
+void Juego::dificultad_de_juego()
 {
 	//************************************actualizar nivel**********************//
-	if (puntaje >= 60 && puntaje < 100 && bombas_en_pantalla() == false) //AGREGAR BARRILES EN PANTALLA?
+	if (puntaje >= 60 && puntaje < 100 && bombas_en_pantalla() == false)
 	{
 		max_bombas = 5;
 		max_barriles = 3;
@@ -582,6 +580,7 @@ void Juego::prueba_en_consola()
 	//se agrea linea para probar la nueva branch
 }
 
+
 void Juego::resetear_juego()
 {
 	if (Game_over == true)
@@ -589,22 +588,11 @@ void Juego::resetear_juego()
 		vida = 5;
 		puntaje = 0;
 		fase = 1;
+		borrar_vectores(pelotas);
 		pelotas.clear();
-		for (auto it = pelotas.begin(); it != pelotas.end(); it++)
-		{
-			delete* it;
-		}
-		
-		for (auto it = proyectiles_en_juego.begin(); it != proyectiles_en_juego.end(); it++)
-		{
-			delete* it;
-		}
+		borrar_vectores(proyectiles_en_juego);
 		proyectiles_en_juego.clear();
-		
-		for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
-		{
-			delete* it;
-		}
+		borrar_vectores(barril_explosivo);
 		barril_explosivo.clear();
 		
 		for (auto it = granada_de_mano.begin(); it != granada_de_mano.end(); it++)
@@ -633,22 +621,11 @@ Juego::~Juego()
 	delete reloj;
 	delete tiempo1;
 	delete soldado;
-	for (auto it = pelotas.begin(); it != pelotas.end(); it++)
-	{
-		delete* it;
-	}
+	borrar_vectores(pelotas);
 	pelotas.clear();
-	
-	for (auto it = proyectiles_en_juego.begin(); it != proyectiles_en_juego.end(); it++)
-	{
-		delete* it;
-	}
-	
+	borrar_vectores(proyectiles_en_juego);
 	proyectiles_en_juego.clear();
-	
-	for (auto it = barril_explosivo.begin(); it != barril_explosivo.end(); it++)
-	{
-		delete* it;
-	}
+	borrar_vectores(barril_explosivo);
 	barril_explosivo.clear();
 }
+
