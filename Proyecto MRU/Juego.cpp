@@ -100,7 +100,7 @@ void Juego::DrawGame()
 		//dibujo barriles
 		dibujar_vectores(barril_explosivo);
 		//dibujo bombas
-		dibujar_vectores(pelotas);
+		dibujar_vectores(bombas);
 		dibujar_vectores(granada_de_mano);
 		//dibujo proyectiles
 		dibujar_vectores(proyectiles_en_juego);
@@ -207,11 +207,11 @@ void Juego::UpdateGame()
 		bombardero->actualizar(*zona_disparoRECT, bombas_en_pantalla());
 
 		//actualizar bombas
-		if (pelotas.size() >= 0)
+		if (bombas.size() >= 0)
 		{
-			for (int i = 0; i < pelotas.size(); i++)
+			for (int i = 0; i < bombas.size(); i++)
 			{
-				pelotas[i]->actualizar(limite_ancho_derecha, limite_ancho_izquierda);
+				bombas[i]->actualizar(limite_ancho_derecha, limite_ancho_izquierda);
 			}
 		}
 
@@ -256,7 +256,7 @@ void Juego::UpdateGame()
 			tiempo3 = tiempo2 + 0.50f;
 			if (bombardero->posision_disparo(*zona_disparoRECT) == true && cant_bombas < max_bombas)
 			{
-				pelotas.push_back(new Bomba(bombaposition, bombardero->get_velocidad_avion_X(), aceleracion_bomba));
+				bombas.push_back(new Bomba(bombaposition, bombardero->get_velocidad_avion_X(), aceleracion_bomba));
 				cant_bombas++;
 			}
 		}
@@ -305,7 +305,7 @@ void Juego::ProcessCollisions()
 	{
 							//********************COLICIONES**********************//
 		//colicion de bombas con proyectiles.
-		colicion_de_objetos(pelotas, proyectiles_en_juego);
+		colicion_de_objetos(bombas, proyectiles_en_juego);
 
 		//colicion barriles con proyectil
 		colicion_de_objetos(barril_explosivo, proyectiles_en_juego);
@@ -340,15 +340,15 @@ void Juego::ProcessCollisions()
 		}
 
 		//colicion de bombas con el suelo (SE PIERDEN VIDAS)
-		if (pelotas.size() > 0)
+		if (bombas.size() > 0)
 		{
-			for (int i = 0; i < pelotas.size(); i++)
+			for (int i = 0; i < bombas.size(); i++)
 			{
-				if (pelotas[i]->get_sprite().getPosition().y > pantalla_alto - pelotas[i]->get_sprite().getGlobalBounds().height) //CHECKEAR LA DISTANCIA
+				if (bombas[i]->get_sprite().getPosition().y > pantalla_alto - bombas[i]->get_sprite().getGlobalBounds().height) //CHECKEAR LA DISTANCIA
 				{
 					sound_explo.play();
-					delete pelotas[i];
-					pelotas.erase(pelotas.begin() + i);
+					delete bombas[i];
+					bombas.erase(bombas.begin() + i);
 					//SONIDO DE PERDIDA DE VIDA
 					vida--;
 					break;
@@ -385,7 +385,7 @@ void Juego::Go()
 
 bool Juego::bombas_en_pantalla()
 {
-	if (pelotas.size() > 0)
+	if (bombas.size() > 0)
 	{
 		return true;
 	}
@@ -460,8 +460,8 @@ void Juego::resetear_juego()
 		vida = 5;
 		puntaje = 0;
 		fase = 1;
-		borrar_vectores(pelotas);
-		pelotas.clear();
+		borrar_vectores(bombas);
+		bombas.clear();
 		borrar_vectores(proyectiles_en_juego);
 		proyectiles_en_juego.clear();
 		borrar_vectores(barril_explosivo);
@@ -488,8 +488,8 @@ Juego::~Juego()
 	delete reloj;
 	delete tiempo1;
 	delete soldado;
-	borrar_vectores(pelotas);
-	pelotas.clear();
+	borrar_vectores(bombas);
+	bombas.clear();
 	borrar_vectores(proyectiles_en_juego);
 	proyectiles_en_juego.clear();
 	borrar_vectores(barril_explosivo);

@@ -24,7 +24,7 @@ private:
 	void DrawGame();
 	void UpdateGame();
 	void ProcessCollisions();
-	vector <Bomba*> pelotas;
+	vector <Bomba*> bombas;
 	vector <Barril*> barril_explosivo;
 	vector <Granada*> granada_de_mano;
 	int pantalla_ancho = 1270;
