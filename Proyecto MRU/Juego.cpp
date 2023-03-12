@@ -116,9 +116,9 @@ void Juego::DrawGame()
 
 void Juego::UpdateGame()
 {
+	//actualizo la pos de la mira
 	mouserposition.x = (float)Mouse::getPosition(*pWnd).x;
 	mouserposition.y = (float)Mouse::getPosition(*pWnd).y;
-	
 	Mira_cursor->set_pos_mira(mouserposition);
 
 	//MENU
@@ -169,10 +169,6 @@ void Juego::UpdateGame()
 			soldado->saltar();
 
 		}
-
-		
-
-		//disparar proyectiles (los crea)
 
 		proyectil_pos_de_disparo.x = soldadoRECT->getPosition().x;
 		proyectil_pos_de_disparo.y = soldadoRECT->getPosition().y;
@@ -265,6 +261,7 @@ void Juego::UpdateGame()
 			}
 		}
 
+		//tirar barriles
 		if (tiempo2 > tiempo_barril_explosivo)
 		{
 			tiempo_barril_explosivo = tiempo2 + 1.25f;
@@ -272,8 +269,8 @@ void Juego::UpdateGame()
 				barril_explosivo.push_back(new Barril(velocidad_barril,pantalla_ancho,pantalla_alto));
 			cant_barriles++;
 		}
-
-		//tirar barriles
+		
+		//actualizo la dificultad del juego
 		dificultad_de_juego();
 
 		//***************reset cargador de bombas***********************//
@@ -287,9 +284,6 @@ void Juego::UpdateGame()
 			cant_barriles = 0;
 		}
 
-
-
-
 		//*************************GAMEOVER*************************************
 		if (vida <= 0)
 		{
@@ -299,9 +293,7 @@ void Juego::UpdateGame()
 		}
 
 		//*************************GAME RESET*************************************
-
 		resetear_juego();
-
 	}
 }
 
@@ -311,135 +303,27 @@ void Juego::ProcessCollisions()
 	//****************GAME MENU***************************************//
 	if (menus->get_pantalla_juego() == true)
 	{
-		//coliciones
+							//********************COLICIONES**********************//
 		//colicion de bombas con proyectiles.
-		if (pelotas.size() >= 0 && proyectiles_en_juego.size() >= 0)
-		{
-
-			for (int i = 0; i < pelotas.size(); i++)
-			{
-				for (int j = 0; j < proyectiles_en_juego.size(); j++)
-				{
-					if (proyectiles_en_juego[j]->get_sprite().getGlobalBounds().intersects(pelotas[i]->get_sprite().getGlobalBounds()))
-					{
-						//cout << "se produjo colicion" << endl;
-						puntaje += 10;
-						delete proyectiles_en_juego[j];
-						proyectiles_en_juego.erase(proyectiles_en_juego.begin() + j);
-						sound_explo.play();
-						delete pelotas[i];
-						pelotas.erase(pelotas.begin() + i);
-						break;
-					}
-				}
-			}
-		}
+		colicion_de_objetos(pelotas, proyectiles_en_juego);
 
 		//colicion barriles con proyectil
+		colicion_de_objetos(barril_explosivo, proyectiles_en_juego);
 
-		if (barril_explosivo.size() >= 0 && proyectiles_en_juego.size() >= 0)
-		{
-
-			for (int i = 0; i < barril_explosivo.size(); i++)
-			{
-				for (int j = 0; j < proyectiles_en_juego.size(); j++)
-				{
-					if (proyectiles_en_juego[j]->get_sprite().getGlobalBounds().intersects(barril_explosivo[i]->get_sprite().getGlobalBounds()))
-					{
-						//cout << "se produjo colicion" << endl;
-						puntaje += 10;
-						delete proyectiles_en_juego[j];
-						proyectiles_en_juego.erase(proyectiles_en_juego.begin() + j);
-						sound_explo.play();
-						delete barril_explosivo[i];
-						barril_explosivo.erase(barril_explosivo.begin() + i);
-						break;
-					}
-				}
-			}
-		}
-
-		//colicion de granada con barriles.
-		if (granada_de_mano.size() >= 0 && barril_explosivo.size())
-		{
-			for (int i = 0; i < granada_de_mano.size(); i++)
-			{
-				for (int j = 0; j < barril_explosivo.size(); j++)
-				{
-					if (granada_de_mano[i]->get_sprite().getGlobalBounds().intersects(barril_explosivo[j]->get_sprite().getGlobalBounds()))
-					{
-						puntaje += 10;
-						delete granada_de_mano[i];
-						granada_de_mano.erase(granada_de_mano.begin() + i);
-						sound_explo.play();
-						delete barril_explosivo[j];
-						barril_explosivo.erase(barril_explosivo.begin() + j);
-						break;
-
-					}
-				}
-			}
-		}
+		//colicion de granada con barriles
+		colicion_de_objetos(barril_explosivo, granada_de_mano);
 
 		//colicion de granadas con los bordes de la pantalla.
-		if (granada_de_mano.size() >= 0)
-		{
-			for (int i = 0; i < granada_de_mano.size(); i++)
-			{
-				int x = granada_de_mano[i]->get_sprite().getPosition().x;
-				int y = granada_de_mano[i]->get_sprite().getPosition().y;
-
-				if (y > pantalla_alto || x < 0 || x > pantalla_ancho)
-				{
-					delete granada_de_mano[i];
-					granada_de_mano.erase(granada_de_mano.begin() + i);
-					break;
-				}
-			}
-		}
+		colicion_de_objeto_con_pantalla(granada_de_mano);
 
 		//colicion de proyectiles con los bordes de la pantalla.
-		if (proyectiles_en_juego.size() >= 0)
-		{
-
-			for (int i = 0; i < proyectiles_en_juego.size(); i++)
-			{
-				int y = (int)proyectiles_en_juego[i]->get_sprite().getPosition().y;
-				int x = (int)proyectiles_en_juego[i]->get_sprite().getPosition().x;
-
-				if (y < 50 || y > pantalla_alto || x < 20 || x > pantalla_ancho)
-				{
-					delete proyectiles_en_juego[i];
-					proyectiles_en_juego.erase(proyectiles_en_juego.begin() + i);
-					break;
-				}
-			}
-		}
+		colicion_de_objeto_con_pantalla(proyectiles_en_juego);
 
 		//colicion de los barriles con los bordes de la pantalla.
-		if (barril_explosivo.size() >= 0)
-		{
-			for (int i = 0; i < barril_explosivo.size(); i++)
-			{
-				if (barril_explosivo[i]->get_sprite().getGlobalBounds().intersects(limite_ancho_izquierda.getGlobalBounds()) &&
-					barril_explosivo[i]->get_sprite().getFillColor() == Color::Green)
-				{
-					delete barril_explosivo[i];
-					barril_explosivo.erase(barril_explosivo.begin() + i);
-					break;
-				}
-				if (barril_explosivo[i]->get_sprite().getGlobalBounds().intersects(limite_ancho_derecha.getGlobalBounds()) &&
-					barril_explosivo[i]->get_sprite().getFillColor() != Color::Green)
-				{
-					delete barril_explosivo[i];
-					barril_explosivo.erase(barril_explosivo.begin() + i);
-					break;
-				}
-			}
-		}
+		colicion_de_objeto_con_pantalla(barril_explosivo);
 
-		//colicion de barril con personaje;
-		if (barril_explosivo.size() >= 0)
+		//colicion de barril con personaje (SE PIERDEN VIDAS)
+		if (barril_explosivo.size() > 0)
 		{
 			for (int i = 0; i < barril_explosivo.size(); i++)
 			{
@@ -456,10 +340,9 @@ void Juego::ProcessCollisions()
 		}
 
 		//colicion de bombas con el suelo (SE PIERDEN VIDAS)
-		if (pelotas.size() >= 0)
+		if (pelotas.size() > 0)
 		{
 			for (int i = 0; i < pelotas.size(); i++)
-
 			{
 				if (pelotas[i]->get_sprite().getPosition().y > pantalla_alto - pelotas[i]->get_sprite().getGlobalBounds().height) //CHECKEAR LA DISTANCIA
 				{
@@ -470,11 +353,8 @@ void Juego::ProcessCollisions()
 					vida--;
 					break;
 				}
-
 			}
-
 		}
-
 	}
 }
 
@@ -489,15 +369,14 @@ void Juego::Go()
 		while (pWnd->pollEvent(evt))
 
 			ProcessEvent(evt);
-		//MENU DE PANTALLA AQUI.
 		//procesar colisiones
 		ProcessCollisions();
 		//actualizar estados de objetos
 		UpdateGame();
 		pWnd->clear();
+		//dibujo
 		DrawGame();
 		prueba_en_consola();
-		//MENU DE FIN DEL JUEGO AQUI
 		pWnd->display();
 
 	}
@@ -570,15 +449,8 @@ void Juego::dificultad_de_juego()
 void Juego::prueba_en_consola()
 {
 	//colocar aqui adentro todo los cout.
-	//cout << torretaaire->get_sprite_torreta().getOrigin().y << endl;
-	//cout << bombardero->get_sprite_avion().getPosition().x << endl;
-	//cout << soldado->get_sprite().getPosition().x << endl;
-	//cout << Mira_cursor->get_sprite().getPosition().x << endl;
-	//bombas_en_pantalla();
-	//cout << acercamiento << endl;
-	//cout << soldado->get_sprite().getGlobalBounds().width << endl;
-	//se agrea linea para probar la nueva branch
 }
+
 
 
 void Juego::resetear_juego()
@@ -594,13 +466,8 @@ void Juego::resetear_juego()
 		proyectiles_en_juego.clear();
 		borrar_vectores(barril_explosivo);
 		barril_explosivo.clear();
-		
-		for (auto it = granada_de_mano.begin(); it != granada_de_mano.end(); it++)
-		{
-			delete* it;
-		}
+		borrar_vectores(granada_de_mano);
 		granada_de_mano.clear();
-
 		bombardero->reset_avion(pantalla_ancho);
 		soldado->reset(pantalla_ancho);
 		Game_over = false;
@@ -627,5 +494,7 @@ Juego::~Juego()
 	proyectiles_en_juego.clear();
 	borrar_vectores(barril_explosivo);
 	barril_explosivo.clear();
+	borrar_vectores(granada_de_mano);
+	granada_de_mano.clear();
 }
 

@@ -83,6 +83,7 @@ public:
 	void Go();
 	void resetear_juego();
 	void prueba_en_consola();
+	/////////////////////////////////////**********Funciones con plantillas************//////////////////////////////////////
 	template <typename T>
 	void dibujar_vectores(const vector<T>& vector)
 	{
@@ -103,4 +104,49 @@ public:
 		}
 		
 	}
+	template <typename A, typename D>
+	void colicion_de_objetos(vector<A>& vector1, vector<D>& vector2)
+	{
+		if (vector1.size() >= 0 && proyectiles_en_juego.size() >= 0)
+		{
+
+			for (int i = 0; i < vector1.size(); i++)
+			{
+				for (int j = 0; j < vector2.size(); j++)
+				{
+					if (vector2[j]->get_sprite().getGlobalBounds().intersects(vector1[i]->get_sprite().getGlobalBounds()))
+					{
+						puntaje += 10;
+						delete vector2[j];
+						vector2.erase(vector2.begin() + j);
+						sound_explo.play();
+						delete vector1[i];
+						vector1.erase(vector1.begin() + i);
+						break;
+					}
+				}
+			}
+		}
+	}
+	template <typename p>
+	void colicion_de_objeto_con_pantalla(vector<p>& vector)
+	{
+		if (vector.size() > 0)
+		{
+			for (int i = 0; i < vector.size(); i++)
+			{
+				int y = (int)vector[i]->get_sprite().getPosition().y;
+				int x = (int)vector[i]->get_sprite().getPosition().x;
+
+				if (y < 50 || y > pantalla_alto || x < 0 || x > pantalla_ancho)
+				{
+					delete vector[i];
+					vector.erase(vector.begin() + i);
+					break;
+				}
+			}
+		}
+	}
+	
 };
+
